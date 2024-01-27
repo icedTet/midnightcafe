@@ -7,9 +7,11 @@ export const OnboardingPage = () => {
   const [stage, setStage] = useState(0);
   const [name, setName] = useState("");
   const [countryCode, setCountryCode] = useState("1");
+  const [allowedMarketing, setallowedMarketing] = useState(true);
   const [phone, setPhone] = useState("");
   const [code, setcode] = useState("");
   const [loading, setloading] = useState(false);
+  const [errorMsg, seterrorMsg] = useState("");
 
   useEffect(() => {
     setTimeout(() => {
@@ -17,6 +19,9 @@ export const OnboardingPage = () => {
       globalThis?.document?.getElementById("nameInput")?.focus();
     }, 250);
   }, []);
+  useEffect(() => {
+    seterrorMsg("");
+  }, [name, phone, countryCode, allowedMarketing, code]);
   return (
     <>
       <main
@@ -40,7 +45,7 @@ export const OnboardingPage = () => {
             <span className="text-3xl lg:text-2xl md:text-2xl font-extrabold text-center font-montserrat bg-gradient-to-br  from-indigo-200 via-red-200 to-yellow-100 bg-clip-text leading-loose text-transparent">
               Register / Login
             </span>
-            <div className={`relative gap-0 h-24`}>
+            <div className={`relative gap-0 h-36`}>
               <motion.div
                 className={`w-full max-w-[45ch] px-4 gap-6 flex flex-col
                     ${
@@ -296,8 +301,8 @@ export const OnboardingPage = () => {
                   }}
                   className={`text-xs font-medium font-wsans text-gray-100/30`}
                 >
-                  We&apos;ll send you a text to verify your number. Don&apos;t worry, we
-                  won&apos;t sell your number to anyone.
+                  We&apos;ll send you a text to verify your number. Don&apos;t
+                  worry, we won&apos;t sell your number to anyone.
                 </motion.span>
                 <motion.span
                   variants={{
@@ -318,8 +323,43 @@ export const OnboardingPage = () => {
                   className={`text-xs font-medium font-wsans text-gray-100/30`}
                 >
                   Your number will only be used for verification, order updates,
-                  and occasional offers. Opt out anytime by texting &quot;STOP&quot;.{" "}
+                  and occasional offers if you have opted in.
                 </motion.span>
+                <motion.div
+                  variants={{
+                    hidden: {
+                      opacity: 0,
+                      y: -100,
+                    },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: {
+                        duration: 1,
+                        type: "spring",
+                        bounce: 0.5,
+                      },
+                    },
+                  }}
+                  className={`flex items-center mb-4`}
+                >
+                  <input
+                    id="optin"
+                    type="checkbox"
+                    checked={allowedMarketing}
+                    onChange={(e) => {
+                      setallowedMarketing(e.target.checked);
+                    }}
+                    className="w-4 h-4 text-purple-500 accent-purple-500 rounded-lg focus:ring-purple-500  focus:ring-2 bg-gray-700 border-gray-600"
+                  />
+                  <label
+                    htmlFor="optin"
+                    className="ms-2 text-xs font-medium text-gray-100/20"
+                  >
+                    Opt-in to occasional offers and updates from us! You can opt
+                    out at any time by replying "STOP".
+                  </label>
+                </motion.div>
                 <motion.span
                   variants={{
                     hidden: {
@@ -457,21 +497,33 @@ export const OnboardingPage = () => {
                 className={`bg-white text-black w-full px-4 pr-6 h-10 rounded-2xl hover:bg-gray-900/40 hover:text-white hover:border border-gray-100 transition-all duration-150 disabled:opacity-10`}
                 id="nextbutton"
                 onClick={async () => {
-                    setloading(true);
+                  setloading(true);
                   if (stage === 1) {
+                    if (name.length < 3) {
+                      seterrorMsg("Please enter a valid name");
+                      setloading(false);
+                      return;
+                    }
                     globalThis.document?.getElementById("phoneinput")?.focus();
 
                     setStage(2);
                     setloading(false);
                   }
                   if (stage === 2) {
+                    // verify phone
+                    if (phone.length < 10) {
+                      seterrorMsg("Please enter a valid phone number");
+                      setloading(false);
+                      return;
+                    }
+
                     // send code
-                    
+
                     setStage(3);
                     globalThis.document?.getElementById("codeInput")?.focus();
                   }
                 }}
-                disabled={loading}
+                disabled={loading || !!errorMsg.length}
               >
                 <div className="flex flex-row gap-2 items-center justify-center ">
                   {/* <BiFoodMenu className={`text-lg w-6 h-6`} /> */}
@@ -481,6 +533,11 @@ export const OnboardingPage = () => {
                   <span className={`font-light text-xs`}></span>
                 </div>
               </button>
+              <span
+                className={`text-red-900     text-xs font-medium font-wsans text-left w-full`}
+              >
+                {errorMsg}
+              </span>
             </div>
           </div>
         </div>
