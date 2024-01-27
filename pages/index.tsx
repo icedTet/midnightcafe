@@ -45,7 +45,7 @@ export default function Home() {
               </span>
             </div>
           </div>
-          <div className={`flex flex-col gap-4 items-center w-full px-4`}>
+          <div className={`flex flex-col gap-4 items-center w-full px-4 pb-16`}>
             <button
               className={`bg-white text-black w-full px-4 pr-6 h-10 rounded-2xl hover:bg-gray-900/40 hover:text-white hover:border border-gray-100 transition-all duration-150`}
             >
@@ -55,21 +55,36 @@ export default function Home() {
                 <span className={`font-light text-xs`}>(Open until 2am)</span>
               </div>
             </button>
+            <div className={`flex flex-row gap-2 w-full items-center justify-center`}>
+              <div className={`border grow h-0 border-gray-100/5`} />
+              <span className={`text-gray-100/30 text-xs`}>or</span>
+              <div className={`border grow h-0 border-gray-100/5`} />
+            </div>
             <button
-              className={`text-white hover:bg-gray-100/10 w-full h-10 rounded-2xl text-center transition-all duration-200`}
+              className={`text-gray-100/60 hover:text-gray-100 hover:bg-gray-100/10 w-full h-10 rounded-2xl text-center transition-all duration-200`}
             >
               <div className="flex flex-row gap-2 items-center justify-center ">
-                {/* <HiOutlineGift className={`text-lg w-6 h-6`} /> */}
-                <span className={``}>View Rewards</span>
+                <span className={``}>Login / Register</span>
               </div>
             </button>
           </div>
         </div>
 
-        <div className={`flex flex-col`}></div>
+        <div className={`flex flex-col`}>
+          <div className={`flex flex-row gap-2 items-center justify-center`}>
+            {/* <span className={`text-white text-xs font-light`}>Made by Tet</span> */}
+          </div>
+        </div>
       </main>
-      <div className={`absolute top-0 left-0 w-full h-full opacity-50`}>
-        <Image src="/landingbg.jpg" layout="fill" objectFit="cover" alt={""} className={`blur-md opacity-50`} />
+      <div className={`fixed top-0 left-0 w-full h-full opacity-50`}>
+        {/* <div className={`bg-gradient-to-b from-gray-900/0 via-gray-900/50 to-gray-900 absolute top-0 left-0`} /> */}
+        <Image
+          src="/landingbg.jpg"
+          layout="fill"
+          objectFit="cover"
+          alt={""}
+          className={`blur-md opacity-50`}
+        />
         <StarBG aniStage={2} />
       </div>
     </>
