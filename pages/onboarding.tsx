@@ -13,6 +13,7 @@ export const OnboardingPage = () => {
   const [loading, setloading] = useState(false);
   const [errorMsg, seterrorMsg] = useState("");
   const [exists, setExists] = useState(false);
+  const [existingUserID, setexistingUserID] = useState("");
 
   useEffect(() => {
     setTimeout(() => {
@@ -515,9 +516,10 @@ export const OnboardingPage = () => {
                       }),
                     });
                     if (res.ok) {
-                      const { exists, numberDetail } = await res.json();
+                      const { exists, numberDetail, userID } = await res.json();
                       if (exists) {
                         setExists(true);
+                        setexistingUserID(userID);
                         setStage(3);
                       } else {
                         setStage(2);
@@ -579,6 +581,7 @@ export const OnboardingPage = () => {
                           phoneNumber: `+${countryCode}${phone}`,
                           code,
                           allowedMarketing,
+                          ...(exists && { userID: existingUserID }),
                         }),
                       }
                     );
