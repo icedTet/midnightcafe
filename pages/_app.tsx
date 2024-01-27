@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
     if (user) {
       updateUser(JSON.parse(user), true);
     }
-    fetcher("/api/user").then(async (res) => {
+    fetcher("/api/users/@me").then(async (res) => {
       if (res.ok) {
         const user = await res.json();
         updateUser(user);
