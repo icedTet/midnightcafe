@@ -41,7 +41,7 @@ export default async function handler(
     const db = MongoPromise.db("Users");
     const collection = db.collection("user");
     const userLocate = (await collection.findOne({
-      $or: [{ phoneNumber }, { username }],
+      $or: [{ phoneNumber }],
     })) as User;
     if (!userLocate) {
       return res.status(200).json({ exists: false });
