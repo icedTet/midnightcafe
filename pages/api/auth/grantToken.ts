@@ -38,7 +38,7 @@ export default async function handler(
     const MongoPromise = await Mongo;
     const db = MongoPromise.db("Users");
     const correctCode = await db.collection("otaCode").findOne({
-      userID,
+      userID: new ObjectId(userID),
       ota: code,
     });
     if (!correctCode) {
