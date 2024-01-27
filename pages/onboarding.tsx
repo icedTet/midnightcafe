@@ -466,7 +466,7 @@ export const OnboardingPage = () => {
                     className="ms-2 text-xs font-medium text-gray-100/20"
                   >
                     Opt-in to occasional offers and updates from us! You can opt
-                    out at any time by replying "STOP".
+                    out at any time by replying &quot;STOP&quot;.
                   </label>
                 </motion.div>
                 <motion.span
