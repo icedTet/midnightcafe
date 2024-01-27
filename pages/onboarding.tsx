@@ -93,7 +93,7 @@ export const OnboardingPage = () => {
                   }}
                   className={`text-xl font-bold font-montserrat text-gray-100/80`}
                 >
-                  What's your name?
+                  What&apos;s your name?
                 </motion.h3>
 
                 <motion.input
@@ -181,7 +181,7 @@ export const OnboardingPage = () => {
                   }}
                   className={`text-xl font-bold font-montserrat text-gray-100/80`}
                 >
-                  What's your Phone Number?
+                  What&apos;s your Phone Number?
                 </motion.h3>
                 <motion.div
                   className={`flex flex-row gap-4 items-center w-full`}
@@ -296,7 +296,7 @@ export const OnboardingPage = () => {
                   }}
                   className={`text-xs font-medium font-wsans text-gray-100/30`}
                 >
-                  We'll send you a text to verify your number. Don't worry, we
+                  We&apos;ll send you a text to verify your number. Don&apos;t worry, we
                   won&apos;t sell your number to anyone.
                 </motion.span>
                 <motion.span
@@ -318,7 +318,7 @@ export const OnboardingPage = () => {
                   className={`text-xs font-medium font-wsans text-gray-100/30`}
                 >
                   Your number will only be used for verification, order updates,
-                  and occasional offers. Opt out anytime by texting "STOP".{" "}
+                  and occasional offers. Opt out anytime by texting &quot;STOP&quot;.{" "}
                 </motion.span>
                 <motion.span
                   variants={{
