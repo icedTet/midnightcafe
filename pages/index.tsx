@@ -61,7 +61,7 @@ export default function Home() {
               <span className={`text-gray-100/30 text-xs`}>or</span>
               <div className={`border grow h-0 border-gray-100/5`} />
             </div>
-            <Link href="/onboarding">
+            <Link href="/onboarding" className={`w-full`}>
             <button
               className={`text-gray-100/60 hover:text-gray-100 hover:bg-gray-100/10 w-full h-10 rounded-2xl text-center transition-all duration-200`}
             >

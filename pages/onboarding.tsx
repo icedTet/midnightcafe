@@ -12,6 +12,7 @@ export const OnboardingPage = () => {
   const [code, setcode] = useState("");
   const [loading, setloading] = useState(false);
   const [errorMsg, seterrorMsg] = useState("");
+  const [exists, setExists] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -47,103 +48,11 @@ export const OnboardingPage = () => {
             </span>
             <div className={`relative gap-0 h-36`}>
               <motion.div
-                className={`w-full max-w-[45ch] px-4 gap-6 flex flex-col
-                    ${
-                      stage === 1
-                        ? "pointer-events-auto"
-                        : "pointer-events-none"
-                    }
-                `}
-                initial="hidden"
-                animate={stage === 1 ? "visible" : "hidden"}
-                variants={{
-                  hidden: {
-                    opacity: 0,
-                    //   x: -100,
-                    height: 0,
-                    transition: {
-                      duration: 0.5,
-                      delay: 0.5,
-                      when: "afterChildren",
-                      staggerChildren: 0.1,
-                    },
-                  },
-                  visible: {
-                    opacity: 1,
-                    //   x: 0,
-                    transition: {
-                      duration: 0,
-                      delay: 0.2,
-                      when: "beforeChildren",
-                      staggerChildren: 0.1,
-                    },
-                  },
-                }}
-              >
-                <motion.h3
-                  variants={{
-                    hidden: {
-                      opacity: 0,
-                      y: -100,
-                    },
-                    visible: {
-                      opacity: 1,
-                      y: 0,
-                      transition: {
-                        duration: 1,
-                        type: "spring",
-                        bounce: 0.5,
-                      },
-                    },
-                  }}
-                  className={`text-xl font-bold font-montserrat text-gray-100/80`}
-                >
-                  What&apos;s your name?
-                </motion.h3>
-
-                <motion.input
-                  //   variants={animateItem}
-                  variants={{
-                    hidden: {
-                      opacity: 0,
-                      // y: -100,
-                    },
-                    visible: {
-                      opacity: 1,
-                      // y: 0,
-                      transition: {
-                        duration: 1,
-                        type: "spring",
-                        bounce: 0.5,
-                      },
-                    },
-                  }}
-                  type="text"
-                  id="nameInput"
-                  className={`bg-gray-800/30 text-gray-100/80 px-6 py-3 rounded-2xl w-full text-xl font-medium font-wsans focus:outline-none focus:ring-purple-500 ring-2 transition-all ring-transparent placeholder:text-2xl placeholder:font-medium placeholder:text-gray-100/40 placeholder:align-middle max-w-[45ch]`}
-                  placeholder={"Your Name"}
-                  onChange={(e) => {
-                    setName(e.target.value);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === "Return") {
-                      globalThis.window?.document
-                        ?.getElementById("nextbutton")
-                        ?.click();
-                      //   localStorage.setItem("name", name);
-                      //   router.push("/");
-                    }
-                  }}
-                  value={name}
-                  autoFocus
-                />
-              </motion.div>
-              <motion.div
                 className={`w-full max-w-[45ch] px-4 gap-6 flex flex-col ${
-                  stage === 2 ? "pointer-events-auto" : "pointer-events-none"
+                  stage === 1 ? "pointer-events-auto" : "pointer-events-none"
                 }`}
                 initial="hidden"
-                animate={stage === 2 ? "visible" : "hidden"}
+                animate={stage === 1 ? "visible" : "hidden"}
                 variants={{
                   hidden: {
                     opacity: 0,
@@ -304,82 +213,6 @@ export const OnboardingPage = () => {
                   We&apos;ll send you a text to verify your number. Don&apos;t
                   worry, we won&apos;t sell your number to anyone.
                 </motion.span>
-                <motion.span
-                  variants={{
-                    hidden: {
-                      opacity: 0,
-                      y: -100,
-                    },
-                    visible: {
-                      opacity: 1,
-                      y: 0,
-                      transition: {
-                        duration: 1,
-                        type: "spring",
-                        bounce: 0.5,
-                      },
-                    },
-                  }}
-                  className={`text-xs font-medium font-wsans text-gray-100/30`}
-                >
-                  Your number will only be used for verification, order updates,
-                  and occasional offers if you have opted in.
-                </motion.span>
-                <motion.div
-                  variants={{
-                    hidden: {
-                      opacity: 0,
-                      y: -100,
-                    },
-                    visible: {
-                      opacity: 1,
-                      y: 0,
-                      transition: {
-                        duration: 1,
-                        type: "spring",
-                        bounce: 0.5,
-                      },
-                    },
-                  }}
-                  className={`flex items-center mb-4`}
-                >
-                  <input
-                    id="optin"
-                    type="checkbox"
-                    checked={allowedMarketing}
-                    onChange={(e) => {
-                      setallowedMarketing(e.target.checked);
-                    }}
-                    className="w-4 h-4 text-purple-500 accent-purple-500 rounded-lg focus:ring-purple-500  focus:ring-2 bg-gray-700 border-gray-600"
-                  />
-                  <label
-                    htmlFor="optin"
-                    className="ms-2 text-xs font-medium text-gray-100/20"
-                  >
-                    Opt-in to occasional offers and updates from us! You can opt
-                    out at any time by replying "STOP".
-                  </label>
-                </motion.div>
-                <motion.span
-                  variants={{
-                    hidden: {
-                      opacity: 0,
-                      y: -100,
-                    },
-                    visible: {
-                      opacity: 1,
-                      y: 0,
-                      transition: {
-                        duration: 1,
-                        type: "spring",
-                        bounce: 0.5,
-                      },
-                    },
-                  }}
-                  className={`text-xs font-medium font-wsans text-gray-100/30`}
-                >
-                  Carrier rates may apply.
-                </motion.span>
               </motion.div>
               <motion.div
                 className={`w-full max-w-[45ch] px-4 gap-6 flex flex-col ${
@@ -489,6 +322,174 @@ export const OnboardingPage = () => {
                   sent you above.
                 </motion.span>
               </motion.div>
+              <motion.div
+                className={`w-full max-w-[45ch] px-4 gap-6 flex flex-col
+                    ${
+                      stage === 2
+                        ? "pointer-events-auto"
+                        : "pointer-events-none"
+                    }
+                `}
+                initial="hidden"
+                animate={stage === 2 ? "visible" : "hidden"}
+                variants={{
+                  hidden: {
+                    opacity: 0,
+                    //   x: -100,
+                    height: 0,
+                    transition: {
+                      duration: 0.5,
+                      delay: 0.5,
+                      when: "afterChildren",
+                      staggerChildren: 0.1,
+                    },
+                  },
+                  visible: {
+                    opacity: 1,
+                    //   x: 0,
+                    transition: {
+                      duration: 0,
+                      delay: 0.2,
+                      when: "beforeChildren",
+                      staggerChildren: 0.1,
+                    },
+                  },
+                }}
+              >
+                <motion.h3
+                  variants={{
+                    hidden: {
+                      opacity: 0,
+                      y: -100,
+                    },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: {
+                        duration: 1,
+                        type: "spring",
+                        bounce: 0.5,
+                      },
+                    },
+                  }}
+                  className={`text-xl font-bold font-montserrat text-gray-100/80`}
+                >
+                  What&apos;s your name?
+                </motion.h3>
+
+                <motion.input
+                  //   variants={animateItem}
+                  variants={{
+                    hidden: {
+                      opacity: 0,
+                      // y: -100,
+                    },
+                    visible: {
+                      opacity: 1,
+                      // y: 0,
+                      transition: {
+                        duration: 1,
+                        type: "spring",
+                        bounce: 0.5,
+                      },
+                    },
+                  }}
+                  type="text"
+                  id="nameInput"
+                  className={`bg-gray-800/30 text-gray-100/80 px-6 py-3 rounded-2xl w-full text-xl font-medium font-wsans focus:outline-none focus:ring-purple-500 ring-2 transition-all ring-transparent placeholder:text-2xl placeholder:font-medium placeholder:text-gray-100/40 placeholder:align-middle max-w-[45ch]`}
+                  placeholder={"Your Name"}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === "Return") {
+                      globalThis.window?.document
+                        ?.getElementById("nextbutton")
+                        ?.click();
+                      //   localStorage.setItem("name", name);
+                      //   router.push("/");
+                    }
+                  }}
+                  value={name}
+                  autoFocus
+                />
+                <motion.span
+                  variants={{
+                    hidden: {
+                      opacity: 0,
+                      y: -100,
+                    },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: {
+                        duration: 1,
+                        type: "spring",
+                        bounce: 0.5,
+                      },
+                    },
+                  }}
+                  className={`text-xs font-medium font-wsans text-gray-100/30`}
+                >
+                  Your number will only be used for verification, order updates,
+                  and occasional offers if you have opted in.
+                </motion.span>
+                <motion.div
+                  variants={{
+                    hidden: {
+                      opacity: 0,
+                      y: -100,
+                    },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: {
+                        duration: 1,
+                        type: "spring",
+                        bounce: 0.5,
+                      },
+                    },
+                  }}
+                  className={`flex items-center mb-4`}
+                >
+                  <input
+                    id="optin"
+                    type="checkbox"
+                    checked={allowedMarketing}
+                    onChange={(e) => {
+                      setallowedMarketing(e.target.checked);
+                    }}
+                    className="w-4 h-4 text-purple-500 accent-purple-500 rounded-lg focus:ring-purple-500  focus:ring-2 bg-gray-700 border-gray-600"
+                  />
+                  <label
+                    htmlFor="optin"
+                    className="ms-2 text-xs font-medium text-gray-100/20"
+                  >
+                    Opt-in to occasional offers and updates from us! You can opt
+                    out at any time by replying "STOP".
+                  </label>
+                </motion.div>
+                <motion.span
+                  variants={{
+                    hidden: {
+                      opacity: 0,
+                      y: -100,
+                    },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: {
+                        duration: 1,
+                        type: "spring",
+                        bounce: 0.5,
+                      },
+                    },
+                  }}
+                  className={`text-xs font-medium font-wsans text-gray-100/30`}
+                >
+                  Carrier rates may apply.
+                </motion.span>
+              </motion.div>
             </div>
             <div
               className={`flex flex-col gap-4 items-center w-full px-4 pb-16`}
@@ -499,29 +500,109 @@ export const OnboardingPage = () => {
                 onClick={async () => {
                   setloading(true);
                   if (stage === 1) {
-                    if (name.length < 3) {
-                      seterrorMsg("Please enter a valid name");
-                      setloading(false);
-                      return;
-                    }
-                    globalThis.document?.getElementById("phoneinput")?.focus();
-
-                    setStage(2);
-                    setloading(false);
-                  }
-                  if (stage === 2) {
-                    // verify phone
                     if (phone.length < 10) {
                       seterrorMsg("Please enter a valid phone number");
                       setloading(false);
                       return;
                     }
-
-                    // send code
-
-                    setStage(3);
-                    globalThis.document?.getElementById("codeInput")?.focus();
+                    const res = await fetch("/api/auth/validateUser", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        phoneNumber: `+${countryCode}${phone}`,
+                      }),
+                    });
+                    if (res.ok) {
+                      const { exists, numberDetail } = await res.json();
+                      if (exists) {
+                        setExists(true);
+                        setStage(3);
+                      } else {
+                        setStage(2);
+                      }
+                      setloading(false);
+                    } else {
+                      seterrorMsg(
+                        `Something went wrong. ${(await res.json()).error}`
+                      );
+                    }
                   }
+                  if (stage === 2) {
+                    if (name.length < 3) {
+                      seterrorMsg("Please enter a valid name");
+                      setloading(false);
+                      return;
+                    }
+                    // globalThis.document?.getElementById("phoneinput")?.focus();
+                    const res = await fetch("/api/auth/createVerifyRequest", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        phoneNumber: `+${countryCode}${phone}`,
+                        lastName: name.split(" ").pop(),
+                        firstName: name.split(" ").slice(0, -1).join(" "),
+                        allowedMarketing,
+                      }),
+                    });
+                    if (res.ok) {
+                      setStage(3);
+                      setloading(false);
+                      globalThis.document?.getElementById("codeInput")?.focus();
+                    } else {
+                      seterrorMsg(
+                        `Something went wrong. ${(await res.json()).error}`
+                      );
+                    }
+                    setStage(3);
+                    setloading(false);
+                  }
+                  if (stage === 3) {
+                    if (code.length < 6) {
+                      seterrorMsg("Please enter a valid code");
+                      setloading(false);
+                      return;
+                    }
+                    const res = await fetch(
+                      exists
+                        ? "/api/auth/grantToken"
+                        : "/api/auth/verifyRequest",
+                      {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          phoneNumber: `+${countryCode}${phone}`,
+                          code,
+                          allowedMarketing,
+                        }),
+                      }
+                    );
+                    if (res.ok) {
+                      const { token } = await res.json();
+                      localStorage.setItem("token", token);
+                      globalThis.location?.reload();
+                    } else {
+                      seterrorMsg(
+                        `Something went wrong. ${(await res.json()).error}`
+                      );
+                    }
+                  }
+                  //   if (stage === 2) {
+                  //     // verify phone
+                  //     if (name.length < 10) {
+                  //       seterrorMsg("Please enter a valid name");
+                  //       setloading(false);
+                  //       return;
+                  //     }
+
+                  //     // send code
+
+                  //   }
                 }}
                 disabled={loading || !!errorMsg.length}
               >

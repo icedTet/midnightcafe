@@ -5,6 +5,7 @@ export type UnverifiedUser = {
   lastName: string;
   phoneNumber: string;
   ota?: string;
+  marketingAllowed?: boolean;
 };
 
 
@@ -16,4 +17,5 @@ export type User = {
     phoneNumber: string;
     username?: string;
     points?: number;
+    marketingAllowed?: boolean;
 }
