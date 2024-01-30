@@ -34,7 +34,6 @@ export const Navbar = (props: { ref?: React.RefObject<HTMLDivElement> }) => {
   const userData = useContext(UserContext);
   const user = userData?.user;
   const router = useRouter();
-  const [openSidebar, setOpenSidebar] = useState(false);
 
   return (
     <div
@@ -86,7 +85,7 @@ const NavbarUser = (props: { user?: User | null }) => {
   const { user } = props;
   if (!user) {
     return (
-      <div className={`flex flex-row gap-2 items-center -ml-2`}>
+      <div className={`flex flex-row gap-2 items-center -ml-2 md:hidden`}>
         <NavbarLink href="/onboarding" title="Account" />
       </div>
     );
