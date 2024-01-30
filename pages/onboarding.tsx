@@ -642,7 +642,7 @@ export const OnboardingPage = () => {
                       if (user) {
                         user.refreshUser();
                       }
-                      console.log({ user });
+                      // console.log({ user });
                       alert("router update");
                       router.push("/");
                     } else {

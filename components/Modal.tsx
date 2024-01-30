@@ -42,7 +42,7 @@ export const Modal = (props: {
       ) : (
         <Transition
           show={visible}
-          enter="transition ease-out duration-500"
+          enter="transition ease-out duration-300"
           enterFrom="opacity-0 scale-0 md:translate-y-full md:scale-100 "
           enterTo="opacity-100 scale-100 md:translate-y-0 md:scale-100 "
           leave="transition ease-bounce duration-300 "

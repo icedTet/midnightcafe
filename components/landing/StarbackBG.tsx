@@ -45,7 +45,7 @@ export const StarBG = (props: { aniStage: number }) => {
       //     );
       //   };
       const to = setInterval(() => {
-        console.log(starback.speedMultiplier);
+        // console.log(starback.speedMultiplier);
         if (starback.speedMultiplier < -0.2)
           starback.speedMultiplier -= starback.speedMultiplier / 2;
         else if (starback.speedMultiplier > 1)

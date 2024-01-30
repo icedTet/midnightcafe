@@ -40,7 +40,7 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     setNextSlide((n) => n - 1);
     const interval = setInterval(() => {
-      console.log(window.innerWidth, window.innerHeight);
+      // console.log(window.innerWidth, window.innerHeight);
     }, 10);
     setTimeout(() => {
       clearInterval(interval);

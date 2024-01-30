@@ -29,9 +29,9 @@ export default async function handler(
   if (req.method === "POST") {
     const { firstName, lastName, phoneNumber } = req.body;
     // const { firstName, lastName, phoneNumber, marketingAllowed } = req.query;
-    console.log("firstName", firstName);
-    console.log("lastName", lastName);
-    console.log("phoneNumber", phoneNumber);
+    // console.log("firstName", firstName);
+    // console.log("lastName", lastName);
+    // console.log("phoneNumber", phoneNumber);
     if (!firstName || !lastName || !phoneNumber) {
       return res.status(400).json({ error: "Missing fields" });
     }

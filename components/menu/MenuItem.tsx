@@ -3,12 +3,14 @@ import {
   GenericProduct,
   ToppingModiferNames,
   ToppingTypes,
-  ToppingsModifiers,
+  PreferenceModifiers,
   toppingPrices,
+  calculateItemPrice,
 } from "../../pages/menu";
 import { HiOutlinePaintBrush } from "react-icons/hi2";
 import { Modal } from "../Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 const IceLevels = [
   {
     name: "100%",
@@ -77,23 +79,36 @@ const CupsizeLevels = [
     value: "reg",
     default: true,
   },
-//   {
-//     name: "Large",
-//     value: "large",
-//   },
+  //   {
+  //     name: "Large",
+  //     value: "large",
+  //   },
 ];
 export const MenuItem = ({
   product,
   onClick,
   selected,
   setSelectedItem,
+  orderItem,
 }: {
   product: GenericProduct;
   onClick?: () => void;
   selected?: boolean;
   setSelectedItem?: (id: string) => void;
+  orderItem: (product: GenericProduct, prefs: PreferenceModifiers) => void;
 }) => {
-  const [prefs, setPrefs] = useState<ToppingsModifiers>({});
+  const [prefs, setPrefs] = useState<PreferenceModifiers>({});
+  useEffect(() => {
+    const onEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedItem?.("");
+      }
+    };
+    window.addEventListener("keydown", onEscape);
+    return () => {
+      window.removeEventListener("keydown", onEscape);
+    };
+  }, []);
   return (
     <>
       <Modal
@@ -101,7 +116,7 @@ export const MenuItem = ({
         onClose={() => {
           setSelectedItem?.("");
         }}
-        className={`w-[85%] max-w-4xl md:w-full h-5/6 flex flex-col md:flex-col gap-4 md:items-center p-8 overflow-auto justify-between`}
+        className={`w-[85%] max-w-2xl md:w-full h-5/6 flex flex-col md:flex-col gap-4 md:items-center p-8 overflow-auto justify-between`}
       >
         <div className={`flex flex-row gap-8`}>
           <img
@@ -288,7 +303,8 @@ export const MenuItem = ({
                       <div
                         className={`w-full h-full absolute top-0 left-0 bg-gradient-to-br  from-pink-300 via-purple-300 to-indigo-400 rounded-2xl group-hover:opacity-100 ${
                           prefs.cupsize === cupsize.value ||
-                          (typeof prefs.cupsize === "undefined" && cupsize.default)
+                          (typeof prefs.cupsize === "undefined" &&
+                            cupsize.default)
                             ? `opacity-100`
                             : `opacity-0`
                         } opacity-0 transition-all duration-200`}
@@ -306,24 +322,63 @@ export const MenuItem = ({
         </div>
         <button
           className={`bg-black text-white w-full px-4 h-10 rounded-2xl group hover:bg-white hover:text-black transition-all duration-150 relative`}
+          onClick={() => {
+            const clonedPrefs = {
+              ...prefs,
+            };
+            if (!clonedPrefs.ice && product.modifiers.includes("ice")) clonedPrefs.ice = 100;
+            if (!clonedPrefs.sugar && product.modifiers.includes("sugar")) clonedPrefs.sugar = 100;
+            if (!clonedPrefs.cupsize && product.modifiers.includes("cupsize")) clonedPrefs.cupsize = "reg";
+            orderItem(product, clonedPrefs);
+            setPrefs({});
+            setSelectedItem?.("");
+          }}
         >
           <div className="flex flex-row gap-2 items-center justify-center relative z-10 text-sm ">
             {/* <Star className={`text-lg w-6 h-6`} /> */}
             <span className={`font-bold`}>
               Add to Order ($
-              {product.price +
-                (prefs.toppings?.reduce(
-                  (acc, curr) => acc + toppingPrices[curr],
-                  0
-                ) || 0)}
-              )
+              {calculateItemPrice(product, prefs).toFixed(2)})
             </span>
           </div>
         </button>
       </Modal>
 
-      <div
+      <motion.div
         className={` rounded-[2rem] border border-gray-100/5 bg-gray-900 relative overflow-hidden min-h-[30rem]`}
+        // initial={{ opacity: 0, transform: "translate3d(0, 100vh, 0)" }}
+        // animate={{
+        //   opacity: 1,
+        //   transform: "translate3d(0, 0vh, 0)",
+        //   transition: {
+        //     duration: 1,
+        //     type: "spring",
+        //     bounce: 0.4,
+        //   },
+        // }}
+        // exit={{
+        //   opacity: 0,
+        //   transform: "translate3d(0,-100vh, 0)",
+        //   // scale: 0.5,
+        //   transition: {
+        //     duration: 1,
+        //     type: "spring",
+        //     bounce: 0.1,
+        //   },
+        // }}
+        variants={{
+          hidden: { opacity: 0, transform: "translate3d(0, 20vh, 0)" },
+          visible: {
+            opacity: 1,
+            transform: "translate3d(0, 0vh, 0)",
+            transition: {
+              duration: 1,
+              type: "spring",
+              bounce: 0.4,
+            },
+          },
+        }}
+        transition={{ type: "spring", bounce: 0.2 }}
       >
         <div className={`cardBg`}>
           <img
@@ -383,7 +438,7 @@ className={`w-2/3 h-auto rounded-full`}
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };
