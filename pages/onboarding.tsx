@@ -576,7 +576,7 @@ export const OnboardingPage = () => {
                       setloading(false);
                     } else {
                       seterrorMsg(
-                        `Something went wrong. ${(await res.json()).error}`
+                        `Something went wrong. ${(await res!.json()).error}`
                       );
                       setloading(false);
                     }
