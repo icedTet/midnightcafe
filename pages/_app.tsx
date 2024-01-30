@@ -74,7 +74,7 @@ export default function App({ Component, pageProps }: AppProps) {
         },
       });
     };
-    updateUser(null,true)
+    updateUser(null, true);
     if (user) {
       updateUser(JSON.parse(user), true);
     }
@@ -93,12 +93,13 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     if (anisize.current) {
       if (iOS() && !localStorage.getItem("ios")) {
-        alert("hey! you're using ios!");
         localStorage.setItem("ios", "true");
         window.addEventListener("load", () => {
+          alert("hey! you're using ios!");
           setTimeout(() => {
             setForceHeight(anisize.current?.clientHeight!);
             setforceOffset(anisize.current?.offsetTop!);
+            location.href = "/";
           }, 1000);
         });
       } else {
