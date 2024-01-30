@@ -71,13 +71,18 @@ export default function App({ Component, pageProps }: AppProps) {
       setforceOffset(anisize.current.offsetTop);
     }
   }, [width, height]);
-  useEffect(()=>{
+  useEffect(() => {
     // first IOS load
-    if (window.navigator.userAgent.match(/(iPad|iPhone|iPod)/g) && !localStorage.getItem("ios")) {
+    if (
+      window.navigator.userAgent.match(/(iPad|iPhone|iPod)/g) &&
+      !localStorage.getItem("ios")
+    ) {
       localStorage.setItem("ios", "true");
-      router.reload()
+      setTimeout(() => {
+        router.reload();
+      }, 1000);
     }
-  },[])
+  }, []);
   return (
     <>
       <Head key="head">
