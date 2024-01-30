@@ -1,8 +1,9 @@
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { StarBG } from "../components/landing/StarbackBG";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
+import { UserContext } from "../utils/useUser";
 
 export const OnboardingPage = () => {
   const [stage, setStage] = useState(0);
@@ -15,6 +16,7 @@ export const OnboardingPage = () => {
   const [errorMsg, seterrorMsg] = useState("");
   const [exists, setExists] = useState(false);
   const [existingUserID, setexistingUserID] = useState("");
+  const user = useContext(UserContext);
   const router = useRouter();
   useEffect(() => {
     setTimeout(() => {
@@ -606,6 +608,9 @@ export const OnboardingPage = () => {
                     if (res.ok) {
                       const { token } = await res.json();
                       localStorage.setItem("token", token);
+                      if (user) {
+                        user.refreshUser()
+                      }
                       router.push("/");
                     } else {
                       seterrorMsg(

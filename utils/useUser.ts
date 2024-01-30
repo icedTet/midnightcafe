@@ -5,6 +5,7 @@ export const UserContext = createContext<UserContextType | null>(null);
 export type UserContextType = {
   user: User | null;
   setUser: (user: User | null, cached?: boolean) => void;
+  refreshUser: () => void;
   cached: boolean;
 };
 

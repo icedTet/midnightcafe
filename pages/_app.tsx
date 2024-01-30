@@ -60,7 +60,19 @@ export default function App({ Component, pageProps }: AppProps) {
     const user = localStorage.getItem("user");
     const updateUser = (user: User | null, cached?: boolean) => {
       localStorage.setItem("user", JSON.stringify(user));
-      setUser({ user, setUser: updateUser, cached: !!cached });
+      setUser({
+        user,
+        setUser: updateUser,
+        cached: !!cached,
+        refreshUser: () => {
+          fetcher("/api/users/@me").then(async (res) => {
+            if (res.ok) {
+              const user = await res.json();
+              updateUser(user);
+            }
+          });
+        },
+      });
     };
 
     if (user) {
