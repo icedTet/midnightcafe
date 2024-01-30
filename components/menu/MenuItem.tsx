@@ -90,7 +90,7 @@ export const MenuItem = ({
         onClose={() => {
           setSelectedItem?.("");
         }}
-        className={`w-[85%] max-w-4xl md:w-full h-5/6 flex flex-col md:flex-col gap-4 md:items-center p-8 overflow-auto`}
+        className={`w-[85%] max-w-4xl md:w-full h-5/6 flex flex-col md:flex-col gap-4 md:items-center p-8 overflow-auto justify-between`}
       >
         <div className={`flex flex-row gap-8`}>
           <img
@@ -246,23 +246,23 @@ export const MenuItem = ({
               </div>
             </div>
           )}
-          <button
-            className={`bg-black text-white w-full px-4 h-10 rounded-2xl group hover:bg-white hover:text-black transition-all duration-150 relative`}
-          >
-            <div className="flex flex-row gap-2 items-center justify-center relative z-10 text-sm ">
-              {/* <Star className={`text-lg w-6 h-6`} /> */}
-              <span className={`font-bold`}>
-                Add to Order ($
-                {(product.price +
-                  (prefs.toppings?.reduce(
-                    (acc, curr) => acc + toppingPrices[curr],
-                    0
-                  ) || 0))}
-                )
-              </span>
-            </div>
-          </button>
         </div>
+        <button
+          className={`bg-black text-white w-full px-4 h-10 rounded-2xl group hover:bg-white hover:text-black transition-all duration-150 relative`}
+        >
+          <div className="flex flex-row gap-2 items-center justify-center relative z-10 text-sm ">
+            {/* <Star className={`text-lg w-6 h-6`} /> */}
+            <span className={`font-bold`}>
+              Add to Order ($
+              {product.price +
+                (prefs.toppings?.reduce(
+                  (acc, curr) => acc + toppingPrices[curr],
+                  0
+                ) || 0)}
+              )
+            </span>
+          </div>
+        </button>
       </Modal>
 
       <div
