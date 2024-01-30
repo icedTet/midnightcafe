@@ -23,7 +23,7 @@ export const StarBG = (props: { aniStage: number }) => {
           "rgb(205,174,110)",
           "rgb(126,108,74)",
         ],
-        speed: [-0.25, 0.25],
+        speed: [-0.3, 0.3],
         showfps: true,
       });
 
@@ -58,7 +58,7 @@ export const StarBG = (props: { aniStage: number }) => {
         // scrollCont?.removeEventListener("scroll", onScroll);
       };
     }
-  }, [canvasRef.current]);
+  }, [canvasRef.current,width]);
   return (
     <canvas
       ref={canvasRef}

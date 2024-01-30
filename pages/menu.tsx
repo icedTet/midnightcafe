@@ -1,13 +1,17 @@
 import { BiFoodMenu } from "react-icons/bi";
 import { MenuItem } from "../components/menu/MenuItem";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Modal } from "../components/Modal";
 
 export const MenuPage = (props: {
   products: (BobaProduct | FoodProduct)[];
 }) => {
   const { products } = props;
+  const [selectedItem, setSelectedItem] = useState("");
   return (
     <div
-      className={`flex flex-col gap-8 items-center w-full max-w-4xl md:max-w-80 lg:max-w-xl py-16 relative z-10 mx-auto`}
+      className={`flex flex-col gap-8 items-center w-full max-w-4xl md:max-w-80 lg:max-w-xl py-16 relative z-0 mx-auto`}
     >
       <div className={`flex flex-col gap-0 items-center w-full`}>
         <h1 className="text-5xl lg:text-4xl md:text-3xl font-black w-full font-montserrat grow bg-gradient-to-br from-indigo-200 via-red-200 to-yellow-100 bg-clip-text leading-relaxed text-transparent">
@@ -21,7 +25,15 @@ export const MenuPage = (props: {
         className={` w-full grid grid-cols-3 lg:grid-cols-2 md:grid-cols-1 md: gap-8`}
       >
         {products.map((product) => (
-          <MenuItem product={product} key={product.id} />
+          <MenuItem
+            product={product}
+            key={product.id}
+            onClick={() => {
+              setSelectedItem(product.id);
+            }}
+            selected={selectedItem === product.id}
+            setSelectedItem={setSelectedItem}
+          />
         ))}
       </div>
       {/* <div className={`min-h-[30rem] w-] md:flex hidden relative`}>
@@ -115,3 +127,40 @@ interface FoodProduct extends GenericProduct {
   type: "food";
   // modifiers: ["spice", "sauce"];
 }
+export type ToppingsModifiers = {
+  sugar?: SugarModifiers;
+  ice?: IceModifiers;
+  cupsize?: CupsizeModifiers;
+  toppings?: ToppingModifiers[];
+};
+export type SugarModifiersNames =
+  | "200%"
+  | "175%"
+  | "150%"
+  | "125%"
+  | "100% (US 100%)"
+  | "75%"
+  | "50% (Asian 100%)"
+  | "25%"
+  | "0%";
+export type SugarModifiers = 200 | 175 | 150 | 125 | 100 | 75 | 50 | 25 | 0;
+export type IceModifiersName = "100%" | "75%" | "50%" | "25%" | "0% (No Ice)";
+export type IceModifiers = 100 | 75 | 50 | 25 | 0;
+export type CupsizeModifiers = "Regular" | "Large";
+export type ToppingModifiers = "boba" | "lycheejelly";
+export const ToppingModiferNames = {
+  boba: "Boba",
+  lycheejelly: "Lychee Jelly",
+} as Record<ToppingModifiers, string>;
+export const ToppingTypes =  [
+  "boba",
+  "lycheejelly",
+] as ToppingModifiers[];
+export const toppingPrices = {
+  boba: 0.5,
+  lycheejelly: 0.5,
+} as Record<ToppingModifiers, number>;
+export const cupsizePrices = {
+  Regular: 0,
+  Large: 1,
+} as Record<CupsizeModifiers, number>;

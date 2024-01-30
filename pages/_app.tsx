@@ -17,7 +17,7 @@ import Head from "next/head";
 export default function App({ Component, pageProps }: AppProps) {
   const [user, setUser] = useState<UserContextType | null>(null);
   const [initial, setInitial] = useState(true);
-  const [nextSlide, setNextSlide] = useState(999);
+  const [nextSlide, setNextSlide] = useState(10000);
   const [cancelAnims, setCancelAnims] = useState(false);
   const router = useRouter();
   useEffect(() => {

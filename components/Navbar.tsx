@@ -46,11 +46,11 @@ export const Navbar = (props: { ref?: React.RefObject<HTMLDivElement> }) => {
       ref={props.ref}
     >
       <div
-        className={`w-full max-w-6xl flex flex-row gap-2 justify-between items-center backdrop-blur-xl z-50 lg:flex-col rounded-2xl bg-gray-900/50 px-4 py-2
+        className={`w-full max-w-6xl flex flex-row gap-2 justify-between items-center backdrop-blur-xl z-30 lg:flex-col rounded-2xl bg-gray-900/50 px-4 py-2
         `}
       >
         <div className={`flex flex-row gap-4 items-center`}>
-          <Image
+          <img
             src="/logo.png"
             width={48}
             height={48}

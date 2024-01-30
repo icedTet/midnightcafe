@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.18",
     "@tailwindcss/typography": "^0.5.10",
     "@uidotdev/usehooks": "^2.4.1",
     "framer-motion": "^11.0.3",
