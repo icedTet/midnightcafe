@@ -80,19 +80,21 @@ export default function App({ Component, pageProps }: AppProps) {
   const navbarRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (anisize.current) {
-      setForceHeight(anisize.current.clientHeight);
-      setforceOffset(anisize.current.offsetTop);
+      if (iOS() && !localStorage.getItem("ios")) {
+        alert("hey! you're using ios!");
+        localStorage.setItem("ios", "true");
+        setTimeout(() => {
+          setForceHeight(anisize.current?.clientHeight!);
+          setforceOffset(anisize.current?.offsetTop!);
+        }, 500);
+      } else {
+        setForceHeight(anisize.current.clientHeight);
+        setforceOffset(anisize.current.offsetTop);
+      }
     }
   }, [width, height]);
   useEffect(() => {
     // first IOS load
-    if (iOS() && !localStorage.getItem("ios")) {
-      alert("hey! you're using ios!")
-      localStorage.setItem("ios", "true");
-      setTimeout(() => {
-        globalThis?.location.reload()
-      }, 1000);
-    }
   }, []);
   return (
     <>
