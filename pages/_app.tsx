@@ -13,7 +13,20 @@ import { Navbar } from "../components/Navbar";
 import ProgressBar from "../components/ProgressBar";
 import { useWindowSize } from "@uidotdev/usehooks";
 import Head from "next/head";
-
+function iOS() {
+  return (
+    [
+      "iPad Simulator",
+      "iPhone Simulator",
+      "iPod Simulator",
+      "iPad",
+      "iPhone",
+      "iPod",
+    ].includes(navigator.platform) ||
+    // iPad on iOS 13 detection
+    (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+  );
+}
 export default function App({ Component, pageProps }: AppProps) {
   const [user, setUser] = useState<UserContextType | null>(null);
   const [initial, setInitial] = useState(true);
@@ -73,10 +86,8 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [width, height]);
   useEffect(() => {
     // first IOS load
-    if (
-      window.navigator.userAgent.match(/(iPad|iPhone|iPod)/g) &&
-      !localStorage.getItem("ios")
-    ) {
+    if (iOS() && !localStorage.getItem("ios")) {
+      alert("hey! you're using ios!")
       localStorage.setItem("ios", "true");
       setTimeout(() => {
         router.reload();
