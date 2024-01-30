@@ -90,7 +90,7 @@ export default function App({ Component, pageProps }: AppProps) {
       alert("hey! you're using ios!")
       localStorage.setItem("ios", "true");
       setTimeout(() => {
-        router.reload();
+        globalThis?.location.reload()
       }, 1000);
     }
   }, []);
