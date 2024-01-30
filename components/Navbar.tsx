@@ -50,8 +50,8 @@ export const Navbar = (props: { ref?: React.RefObject<HTMLDivElement> }) => {
         `}
       >
         <div className={`flex flex-row gap-4 items-center`}>
-          <img
-            src="/logo.png"
+          <Image
+            src="/Logo.png"
             width={48}
             height={48}
             alt="Logo"
