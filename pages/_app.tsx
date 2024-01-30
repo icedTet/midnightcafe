@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import { Navbar } from "../components/Navbar";
 import ProgressBar from "../components/ProgressBar";
 import { useWindowSize } from "@uidotdev/usehooks";
+import Head from "next/head";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [user, setUser] = useState<UserContextType | null>(null);
@@ -71,75 +72,83 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }, [width, height]);
   return (
-    <UserProvider value={user}>
-      <ProgressBar />
-      <MotionConfig reducedMotion="user">
-        <AnimatePresence>
-          <Navbar ref={navbarRef} />
-          <motion.div
-            key={router.pathname}
-            initial={
-              initial || cancelAnims
-                ? undefined
-                : { opacity: 0, transform: "translate3d(0, 100vh, 0)" }
-            }
-            animate={{
-              opacity: 1,
-              transform: "translate3d(0, 0vh, 0)",
-              transition: {
-                duration: 1,
-                type: "spring",
-                bounce: 0.4,
-              },
-            }}
-            exit={
-              cancelAnims
-                ? undefined
-                : {
-                    opacity: 0,
-                    transform: "translate3d(0,-100vh, 0)",
-                    // scale: 0.5,
-                    transition: {
-                      duration: 1,
-                      type: "spring",
-                      bounce: 0.1,
-                    },
-                  }
-            }
-            transition={{ type: "spring", bounce: 0.2 }}
-            className={`w-full grow shadow-none flex flex-col overflow-hidden transition-colors will-change-transform ${
-              forceOffset > 0 && `absolute`
-            }`}
-            style={{
-              zIndex: nextSlide,
-              minHeight: forceHeight,
-              top: forceOffset,
-            }}
-            ref={anisize}
-          >
-            <div
-              className={` w-full grow overflow-auto font-wsans flex flex-col relative`}
+    <>
+      <Head key="head">
+        {/* fix Page has no manifest <link> URL */}
+        <link rel="manifest" href="/manifest.json" />
+      </Head>
+      <UserProvider value={user}>
+        <ProgressBar />
+        <MotionConfig reducedMotion="user">
+          <AnimatePresence>
+            <Navbar ref={navbarRef} />
+            <motion.div
+              key={router.pathname}
+              initial={
+                initial || cancelAnims
+                  ? undefined
+                  : { opacity: 0, transform: "translate3d(0, 100vh, 0)" }
+              }
+              animate={{
+                opacity: 1,
+                transform: "translate3d(0, 0vh, 0)",
+                transition: {
+                  duration: 1,
+                  type: "spring",
+                  bounce: 0.4,
+                },
+              }}
+              exit={
+                cancelAnims
+                  ? undefined
+                  : {
+                      opacity: 0,
+                      transform: "translate3d(0,-100vh, 0)",
+                      // scale: 0.5,
+                      transition: {
+                        duration: 1,
+                        type: "spring",
+                        bounce: 0.1,
+                      },
+                    }
+              }
+              transition={{ type: "spring", bounce: 0.2 }}
+              className={`w-full grow shadow-none flex flex-col overflow-hidden transition-colors will-change-transform ${
+                forceOffset > 0 && `absolute`
+              }`}
+              style={{
+                zIndex: nextSlide,
+                minHeight: forceHeight,
+                top: forceOffset,
+              }}
+              ref={anisize}
             >
               <div
-                className={`w-full h-full absolute top-0 left-0 flex flex-col overflow-auto`}
+                className={` w-full grow overflow-auto font-wsans flex flex-col relative`}
               >
-                <Component {...pageProps} />
+                <div
+                  className={`w-full h-full absolute top-0 left-0 flex flex-col overflow-auto`}
+                >
+                  <Component {...pageProps} />
+                </div>
               </div>
+            </motion.div>
+            <div
+              className={`fixed top-0 left-0 w-full h-screen opacity-50 z-0`}
+            >
+              {/* <div className={`bg-gradient-to-b from-gray-900/0 via-gray-900/50 to-gray-900 absolute top-0 left-0`} /> */}
+              <Image
+                src="/landingbg.jpg"
+                layout="fill"
+                objectFit="cover"
+                alt={""}
+                className={`blur-md opacity-50 saturate-50`}
+              />
+              <StarBG aniStage={2} />
             </div>
-          </motion.div>
-          <div className={`fixed top-0 left-0 w-full h-screen opacity-50 z-0`}>
-            {/* <div className={`bg-gradient-to-b from-gray-900/0 via-gray-900/50 to-gray-900 absolute top-0 left-0`} /> */}
-            <Image
-              src="/landingbg.jpg"
-              layout="fill"
-              objectFit="cover"
-              alt={""}
-              className={`blur-md opacity-50 saturate-50`}
-            />
-            <StarBG aniStage={2} />
-          </div>
-        </AnimatePresence>
-      </MotionConfig>
-    </UserProvider>
+          </AnimatePresence>
+        </MotionConfig>
+      </UserProvider>
+    </>
   );
 }
