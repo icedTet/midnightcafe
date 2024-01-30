@@ -83,10 +83,12 @@ export default function App({ Component, pageProps }: AppProps) {
       if (iOS() && !localStorage.getItem("ios")) {
         alert("hey! you're using ios!");
         localStorage.setItem("ios", "true");
-        setTimeout(() => {
-          setForceHeight(anisize.current?.clientHeight!);
-          setforceOffset(anisize.current?.offsetTop!);
-        }, 500);
+        window.addEventListener("load", () => {
+          setTimeout(() => {
+            setForceHeight(anisize.current?.clientHeight!);
+            setforceOffset(anisize.current?.offsetTop!);
+          }, 500);
+        });
       } else {
         setForceHeight(anisize.current.clientHeight);
         setforceOffset(anisize.current.offsetTop);
