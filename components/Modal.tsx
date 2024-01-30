@@ -42,16 +42,16 @@ export const Modal = (props: {
       ) : (
         <Transition
           show={visible}
-          enter="transition ease-out duration-200"
+          enter="transition ease-out duration-500"
           enterFrom="opacity-0 scale-0 md:translate-y-full md:scale-100 "
           enterTo="opacity-100 scale-100 md:translate-y-0 md:scale-100 "
-          leave="transition ease-in duration-75 "
+          leave="transition ease-bounce duration-300 "
           leaveFrom="opacity-100 scale-100 md:translate-y-0 md:scale-100 "
           leaveTo="opacity-0 scale-0 md:translate-y-full md:scale-100 "
           as={React.Fragment}
         >
           <div
-            className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 ${
+            className={`fixed top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2 z-50 ${
               !hideBG && `bg-gray-800/50 backdrop-blur-lg`
             } rounded-3xl text-gray-100 ${className} md:bottom-0 md:top-auto md:translate-y-0 md:rounded-b-none`}
             style={{

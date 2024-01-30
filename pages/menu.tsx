@@ -146,21 +146,19 @@ export type SugarModifiersNames =
 export type SugarModifiers = 200 | 175 | 150 | 125 | 100 | 75 | 50 | 25 | 0;
 export type IceModifiersName = "100%" | "75%" | "50%" | "25%" | "0% (No Ice)";
 export type IceModifiers = 100 | 75 | 50 | 25 | 0;
-export type CupsizeModifiers = "Regular" | "Large";
+export type CupsizeModifiersName = "Regular" | "Large";
+export type CupsizeModifiers = "reg" | "large";
 export type ToppingModifiers = "boba" | "lycheejelly";
 export const ToppingModiferNames = {
   boba: "Boba",
   lycheejelly: "Lychee Jelly",
 } as Record<ToppingModifiers, string>;
-export const ToppingTypes =  [
-  "boba",
-  "lycheejelly",
-] as ToppingModifiers[];
+export const ToppingTypes = ["boba", "lycheejelly"] as ToppingModifiers[];
 export const toppingPrices = {
   boba: 0.5,
   lycheejelly: 0.5,
 } as Record<ToppingModifiers, number>;
 export const cupsizePrices = {
-  Regular: 0,
-  Large: 1,
+  reg: 0,
+  large: 1,
 } as Record<CupsizeModifiers, number>;

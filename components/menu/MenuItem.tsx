@@ -71,6 +71,17 @@ const SugarLevels = [
     value: 0,
   },
 ];
+const CupsizeLevels = [
+  {
+    name: "Regular",
+    value: "reg",
+    default: true,
+  },
+//   {
+//     name: "Large",
+//     value: "large",
+//   },
+];
 export const MenuItem = ({
   product,
   onClick,
@@ -176,7 +187,7 @@ export const MenuItem = ({
                           sugar: sugar.value as any,
                         });
                       }}
-                        key={`sugar-${sugar.value}`}
+                      key={`sugar-${sugar.value}`}
                     >
                       <div
                         className={`w-full h-full absolute top-0 left-0 bg-gradient-to-br  from-pink-300 via-purple-300 to-indigo-400 rounded-2xl group-hover:opacity-100 ${
@@ -246,6 +257,49 @@ export const MenuItem = ({
                     </div>
                   </button>
                 ))}
+              </div>
+            </div>
+          )}
+          {product.modifiers.includes("cupsize") && (
+            <div className={`flex flex-col w-full gap-1`}>
+              <div
+                className={`flex flex-row gap-2 items-center justify-between`}
+              >
+                <span className={`font-montserrat font-bold text-lg`}>
+                  Cup Size
+                </span>
+              </div>
+              <div
+                className={`grid grid-cols-2 gap-2 items-center justify-between`}
+              >
+                {
+                  // "100%" | "75%" | "50%" | "25%" | "0% (No Ice)";
+                  CupsizeLevels.map((cupsize) => (
+                    <button
+                      className={`bg-gray-100/40 text-black w-full px-4 h-10 rounded-2xl group hover:text-black transition-all duration-150 relative`}
+                      onClick={() => {
+                        setPrefs({
+                          ...prefs,
+                          cupsize: cupsize.value as any,
+                        });
+                      }}
+                      key={`cupsize-${cupsize.value}`}
+                    >
+                      <div
+                        className={`w-full h-full absolute top-0 left-0 bg-gradient-to-br  from-pink-300 via-purple-300 to-indigo-400 rounded-2xl group-hover:opacity-100 ${
+                          prefs.cupsize === cupsize.value ||
+                          (typeof prefs.cupsize === "undefined" && cupsize.default)
+                            ? `opacity-100`
+                            : `opacity-0`
+                        } opacity-0 transition-all duration-200`}
+                      />
+                      <div className="flex flex-row gap-2 items-center justify-center relative z-10 text-sm ">
+                        {/* <Star className={`text-lg w-6 h-6`} /> */}
+                        <span className={`font-bold`}>{cupsize.name}</span>
+                      </div>
+                    </button>
+                  ))
+                }
               </div>
             </div>
           )}
