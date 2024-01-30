@@ -71,6 +71,13 @@ export default function App({ Component, pageProps }: AppProps) {
       setforceOffset(anisize.current.offsetTop);
     }
   }, [width, height]);
+  useEffect(()=>{
+    // first IOS load
+    if (window.navigator.userAgent.match(/(iPad|iPhone|iPod)/g) && !localStorage.getItem("ios")) {
+      localStorage.setItem("ios", "true");
+      router.reload()
+    }
+  },[])
   return (
     <>
       <Head key="head">
