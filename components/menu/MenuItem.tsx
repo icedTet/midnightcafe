@@ -321,7 +321,7 @@ export const MenuItem = ({
           )}
         </div>
         <button
-          className={`bg-black text-white w-full px-4 h-10 rounded-2xl group hover:bg-white hover:text-black transition-all duration-150 relative`}
+          className={`bg-black text-white w-full px-4 h-10 shrink-0 rounded-2xl group hover:bg-white hover:text-black transition-all duration-150 relative`}
           onClick={() => {
             const clonedPrefs = {
               ...prefs,
@@ -334,7 +334,7 @@ export const MenuItem = ({
             setSelectedItem?.("");
           }}
         >
-          <div className="flex flex-row gap-2 items-center justify-center relative z-10 text-sm ">
+          <div className="flex flex-row gap-2 items-center justify-center relative z-10 text-sm">
             {/* <Star className={`text-lg w-6 h-6`} /> */}
             <span className={`font-bold`}>
               Add to Order ($

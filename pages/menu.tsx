@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Modal } from "../components/Modal";
 import { ShoppingCartItem } from "../utils/ShoppingCart";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
 
 export const MenuPage = (props: {
   products: (BobaProduct | FoodProduct)[];
@@ -12,7 +13,7 @@ export const MenuPage = (props: {
   const [selectedItem, setSelectedItem] = useState("");
   const [shoppingCart, setShoppingCart] = useState([] as ShoppingCartItem[]);
   const [shoppingCartOpened, setShoppingCartOpened] = useState(false);
-  
+
   useEffect(() => {
     if (!shoppingCart.length) {
       const cart = localStorage.getItem("shoppingCart");
@@ -219,22 +220,33 @@ export const MenuPage = (props: {
         className={`w-[85%] max-w-2xl md:w-full h-5/6 flex flex-col md:flex-col gap-4 md:items-center p-8 overflow-auto justify-between`}
       >
         <h3 className={`text-3xl font-bold font-montserrat`}>Your Order</h3>
-        <div className={`grow relative`}>
+        <div className={` w-full grow relative`}>
           <div
-            className={`flex flex-col gap-2 w-full h-full absolute top-0 left-0 overflow-auto`}
+            className={`flex flex-col gap-2 md:gap-4 w-full h-full absolute top-0 left-0 overflow-auto`}
           >
             {shoppingCart.map((item) => {
               const { product, quantity, preferences } = item;
               return (
-                <div className={`flex flex-row gap-8`} key={`shopping-cart-item-${JSON.stringify(item)}`}>
+                <div
+                  className={`flex flex-row md:flex-col gap-8 md:bg-gray-900/50 md:p-4 rounded-xl`}
+                  key={`shopping-cart-item-${JSON.stringify(item)}`}
+                >
                   <img
                     src={product.image}
-                    className={`w-20 h-20 object-cover rounded-2xl shrink-0`}
+                    className={`w-20 h-20 md:hidden object-cover rounded-2xl shrink-0`}
                   />
                   <div className={`flex flex-col gap-4 items-start w-full`}>
-                    <h3 className={`font-montserrat font-bold text-lg w-full`}>
-                      {product.name}
-                    </h3>
+                    <div className={`flex flex-row gap-4 items-center w-full`}>
+                      <img
+                        src={product.image}
+                        className={`w-12 h-12 md:block hidden object-cover rounded-2xl shrink-0`}
+                      />
+                      <h3
+                        className={`font-montserrat font-bold text-lg w-full`}
+                      >
+                        {product.name}
+                      </h3>
+                    </div>
                     <span className={`text-sm font-medium text-gray-100/40`}>
                       {product.description}
                     </span>
@@ -279,7 +291,9 @@ export const MenuPage = (props: {
                       )}
                     </div>
                   </div>
-                  <div className={`flex flex-col gap-1`}>
+                  <div
+                    className={`flex flex-col md:flex-row md:justify-between md:items-center gap-1 items-end`}
+                  >
                     <div className={`flex flex-row gap-2 items-center`}>
                       <button
                         className={`w-8 h-8 bg-gray-100/10 rounded-full flex items-center justify-center`}
@@ -325,10 +339,37 @@ export const MenuPage = (props: {
         >
           <div className="flex flex-row gap-2 items-center justify-center relative z-10 text-sm ">
             {/* <Star className={`text-lg w-6 h-6`} /> */}
-            <span className={`font-bold`}>Place Order</span>
+            <span className={`font-bold`}>
+              Place Order ($
+              {shoppingCart.reduce(
+                (acc, curr) =>
+                  acc +
+                  calculateItemPrice(curr.product, curr.preferences) *
+                    curr.quantity,
+                0
+              ).toFixed(2)}
+              )
+            </span>
           </div>
         </button>
       </Modal>
+      <div className={`fixed bottom-4 left-0 w-24 h-24 p-4 `}>
+        <button
+          className={`flex flex-row gap-4 border border-gray-100/10 bg-black/50 backdrop-blur-xl w-full h-full rounded-full p-2 items-center`}
+          onClick={() => {
+            setShoppingCartOpened(true);
+          }}
+        >
+          <div className={`relative w-12 h-12 p-3 bg-gray-800/50 rounded-full`}>
+            <HiOutlineShoppingBag className={`w-full h-full`} />
+            <div
+              className={`absolute top-0 right-0 w-5 h-5 bg-gradient-to-br from-indigo-300 via-red-300 to-yellow-400 rounded-full text-white text-xs flex items-center justify-center`}
+            >
+              {shoppingCart.length}
+            </div>
+          </div>
+        </button>
+      </div>
     </>
   );
 };

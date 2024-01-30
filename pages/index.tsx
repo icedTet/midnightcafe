@@ -43,7 +43,7 @@ export default function Home() {
               </span>
             </div> */}
               <div className={`flex flex-col gap-4 items-center`}>
-                <h1 className="text-5xl lg:text-4xl md:text-3xl font-black text-center font-montserrat grow bg-gradient-to-br bg-gradient-to-r from-indigo-200 via-red-200 to-yellow-100 bg-clip-text leading-loose text-transparent">
+                <h1 className="text-5xl lg:text-4xl md:text-3xl font-black text-center font-montserrat grow bg-gradient-to-br from-indigo-200 via-red-200 to-yellow-100 bg-clip-text leading-loose text-transparent">
                   The Midnight Cafe
                 </h1>
                 <span className="text-md lg:text-sm md:text-xs font-medium text-center font-wsans grow text-gray-100/40">
