@@ -133,6 +133,7 @@ export const MenuItem = ({
                           ice: ice.value as any,
                         });
                       }}
+                      key={`ice-${ice.value}`}
                     >
                       <div
                         className={`w-full h-full absolute top-0 left-0 bg-gradient-to-br from-pink-300 via-purple-300 to-indigo-400 rounded-2xl group-hover:opacity-100 ${
@@ -175,6 +176,7 @@ export const MenuItem = ({
                           sugar: sugar.value as any,
                         });
                       }}
+                        key={`sugar-${sugar.value}`}
                     >
                       <div
                         className={`w-full h-full absolute top-0 left-0 bg-gradient-to-br  from-pink-300 via-purple-300 to-indigo-400 rounded-2xl group-hover:opacity-100 ${
@@ -223,6 +225,7 @@ export const MenuItem = ({
                           toppings: [...(prefs.toppings || []), topping],
                         });
                     }}
+                    key={`topping-${topping}`}
                   >
                     <div
                       className={`w-full h-full absolute top-0 left-0 bg-gradient-to-br  from-pink-300 via-purple-300 to-indigo-400 rounded-2xl ${
