@@ -74,7 +74,7 @@ export default function App({ Component, pageProps }: AppProps) {
         },
       });
     };
-
+    updateUser(null,true)
     if (user) {
       updateUser(JSON.parse(user), true);
     }
@@ -99,7 +99,7 @@ export default function App({ Component, pageProps }: AppProps) {
           setTimeout(() => {
             setForceHeight(anisize.current?.clientHeight!);
             setforceOffset(anisize.current?.offsetTop!);
-          }, 500);
+          }, 1000);
         });
       } else {
         setForceHeight(anisize.current.clientHeight);

@@ -549,6 +549,7 @@ export const OnboardingPage = () => {
                       seterrorMsg(
                         `Something went wrong. ${(await res.json()).error}`
                       );
+                      setloading(false);
                     }
                   }
                   if (stage === 2) {
@@ -578,6 +579,7 @@ export const OnboardingPage = () => {
                       seterrorMsg(
                         `Something went wrong. ${(await res.json()).error}`
                       );
+                      setloading(false);
                     }
                     setStage(3);
                     setloading(false);
@@ -611,11 +613,14 @@ export const OnboardingPage = () => {
                       if (user) {
                         user.refreshUser()
                       }
+                      console.log({user})
+                      alert("router update")
                       router.push("/");
                     } else {
                       seterrorMsg(
                         `Something went wrong. ${(await res.json()).error}`
                       );
+                      setloading(false);
                     }
                   }
                   //   if (stage === 2) {
