@@ -16,6 +16,7 @@ export const OnboardingPage = () => {
   const [errorMsg, seterrorMsg] = useState("");
   const [exists, setExists] = useState(false);
   const [existingUserID, setexistingUserID] = useState("");
+  const [numberDetail, setNumberDetail] = useState("");
   const user = useContext(UserContext);
   const router = useRouter();
   useEffect(() => {
@@ -329,8 +330,9 @@ export const OnboardingPage = () => {
                   }}
                   className={`text-sm font-medium font-wsans text-gray-100/30`}
                 >
-                  Check your phone for a text message from us. Enter the code we
-                  sent you above.
+                  Check your phone{" "}
+                  {!!numberDetail && `(Ending in ${numberDetail})`} for a text
+                  message from us. Enter the code we sent you above.
                 </motion.span>
               </motion.div>
               <motion.div
@@ -511,38 +513,65 @@ export const OnboardingPage = () => {
                 onClick={async () => {
                   setloading(true);
                   if (stage === 1) {
-                    if (phone.length < 10) {
+                    if (phone.length !== 10) {
                       seterrorMsg("Please enter a valid phone number");
                       setloading(false);
                       return;
                     }
-                    const res = await fetch("/api/auth/validateUser", {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        phoneNumber: `+${countryCode}${phone}`,
+                    let res = (await Promise.race([
+                      fetch("/api/auth/validateUser", {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          phoneNumber: `+${countryCode}${phone}`,
+                        }),
                       }),
-                    });
-                    if (res.ok) {
-                      const { exists, numberDetail, userID } = await res.json();
+                      new Promise((res) => setTimeout(() => res(null), 3000)),
+                    ])) as Response | null;
+                    if (!res) {
+                      seterrorMsg(
+                        "Sorry, your SMS code is taking a bit long, retrying"
+                      );
+                      res = (await Promise.race([
+                        fetch("/api/auth/validateUser", {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify({
+                            phoneNumber: `+${countryCode}${phone}`,
+                          }),
+                        }),
+                        new Promise((res) => setTimeout(() => res(null), 20000)),
+                      ])) as Response | null;
+                      if (!res) {
+                        seterrorMsg(
+                          "There's something wrong with the Authentication system currently, please try again later."
+                        );
+                      }
+                    }
+                    if (res!.ok) {
+                      const { exists, numberDetail, userID } =
+                        await res!.json();
                       if (exists) {
                         setExists(true);
                         setexistingUserID(userID);
                         setStage(3);
+                        setNumberDetail(numberDetail);
                         setTimeout(() => {
                           globalThis.document
                             ?.getElementById("codeInput")
                             ?.focus();
-                        }, 250);
+                        }, 500);
                       } else {
                         setStage(2);
                         setTimeout(() => {
                           globalThis.document
                             ?.getElementById("nameInput")
                             ?.focus();
-                        }, 250);
+                        }, 500);
                       }
                       setloading(false);
                     } else {
@@ -611,10 +640,10 @@ export const OnboardingPage = () => {
                       const { token } = await res.json();
                       localStorage.setItem("token", token);
                       if (user) {
-                        user.refreshUser()
+                        user.refreshUser();
                       }
-                      console.log({user})
-                      alert("router update")
+                      console.log({ user });
+                      alert("router update");
                       router.push("/");
                     } else {
                       seterrorMsg(

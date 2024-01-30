@@ -95,12 +95,11 @@ export default function App({ Component, pageProps }: AppProps) {
       if (iOS() && !localStorage.getItem("ios")) {
         localStorage.setItem("ios", "true");
         window.addEventListener("load", () => {
-          alert("hey! you're using ios!");
           setTimeout(() => {
             setForceHeight(anisize.current?.clientHeight!);
             setforceOffset(anisize.current?.offsetTop!);
             location.href = "/";
-          }, 1000);
+          }, 50);
         });
       } else {
         setForceHeight(anisize.current.clientHeight);
