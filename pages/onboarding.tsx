@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { StarBG } from "../components/landing/StarbackBG";
 import { motion } from "framer-motion";
+import { useRouter } from "next/router";
 
 export const OnboardingPage = () => {
   const [stage, setStage] = useState(0);
@@ -14,11 +15,11 @@ export const OnboardingPage = () => {
   const [errorMsg, seterrorMsg] = useState("");
   const [exists, setExists] = useState(false);
   const [existingUserID, setexistingUserID] = useState("");
-
+  const router = useRouter();
   useEffect(() => {
     setTimeout(() => {
       setStage(1);
-      globalThis?.document?.getElementById("nameInput")?.focus();
+      globalThis?.document?.getElementById("phoneinput")?.focus();
     }, 250);
   }, []);
   useEffect(() => {
@@ -27,26 +28,28 @@ export const OnboardingPage = () => {
   return (
     <>
       <main
-        className={`flex min-h-screen flex-col items-center justify-center p-4 relative z-10 gap-6`}
+        className={`flex grow flex-col items-center justify-center p-4 relative z-10 gap-6 ${
+          stage >= 1 ? "opacity-100" : "opacity-0"
+        } transition-all duration-300`}
       >
         <div className="flex flex-col gap-4 justify-between items-center h-full grow">
           <div
-            className={`flex flex-row gap-4 items-center justify-center p-8 pb-0`}
+            className={`flex flex-row gap-4 items-center justify-center p-2 pb-0`}
           >
-            <Image
+            {/* <Image
               src="/logo.svg"
-              width={72}
-              height={72}
+              width={48}
+              height={48}
               alt={"Logo"}
               className="shrink-0 aspect-square grow-0"
-            />
+            /> */}
+            <span className="text-3xl lg:text-2xl md:text-2xl font-extrabold text-center font-montserrat bg-gradient-to-br  from-indigo-200 via-red-200 to-yellow-100 bg-clip-text leading-loose text-transparent">
+              Register / Login
+            </span>
           </div>
           <div
             className={`flex flex-col gap-4 items-center w-full grow justify-between`}
           >
-            <span className="text-3xl lg:text-2xl md:text-2xl font-extrabold text-center font-montserrat bg-gradient-to-br  from-indigo-200 via-red-200 to-yellow-100 bg-clip-text leading-loose text-transparent">
-              Register / Login
-            </span>
             <div className={`relative gap-0 h-36`}>
               <motion.div
                 className={`w-full max-w-[45ch] px-4 gap-6 flex flex-col ${
@@ -82,11 +85,16 @@ export const OnboardingPage = () => {
                   variants={{
                     hidden: {
                       opacity: 0,
-                      y: -100,
+                      transform: "translate3d(0, -100px, 0)",
+                      transition: {
+                        duration: 1.5,
+                        type: "spring",
+                        bounce: 0.4,
+                      },
                     },
                     visible: {
                       opacity: 1,
-                      y: 0,
+                      transform: "translate3d(0, 0px, 0)",
                       transition: {
                         duration: 1,
                         type: "spring",
@@ -106,11 +114,11 @@ export const OnboardingPage = () => {
                     variants={{
                       hidden: {
                         opacity: 0,
-                        y: -100,
+                        transform: "translate3d(0, -100px, 0)",
                       },
                       visible: {
                         opacity: 1,
-                        y: 0,
+                        transform: "translate3d(0, 0px, 0)",
                         transition: {
                           duration: 1,
                           type: "spring",
@@ -126,11 +134,11 @@ export const OnboardingPage = () => {
                     variants={{
                       hidden: {
                         opacity: 0,
-                        // y: -100,
+                        transform: "translate3d(0, -100px, 0)",
                       },
                       visible: {
                         opacity: 1,
-                        // y: 0,
+                        transform: "translate3d(0, 0px, 0)",
                         transition: {
                           duration: 1,
                           type: "spring",
@@ -161,11 +169,11 @@ export const OnboardingPage = () => {
                     variants={{
                       hidden: {
                         opacity: 0,
-                        // y: -100,
+                        transform: "translate3d(0, -100px, 0)",
                       },
                       visible: {
                         opacity: 1,
-                        // y: 0,
+                        transform: "translate3d(0, 0px, 0)",
                         transition: {
                           duration: 1,
                           type: "spring",
@@ -173,7 +181,7 @@ export const OnboardingPage = () => {
                         },
                       },
                     }}
-                    type="number"
+                    type="tel"
                     className={`bg-gray-800/30 text-gray-100/80 px-6 py-3 rounded-2xl w-full text-xl font-medium font-wsans focus:outline-none focus:ring-purple-500 ring-2 transition-all ring-transparent placeholder:text-2xl placeholder:font-medium placeholder:text-gray-100/40 placeholder:align-middle max-w-[45ch]`}
                     placeholder={"123-456-7890"}
                     onChange={(e) => {
@@ -197,11 +205,11 @@ export const OnboardingPage = () => {
                   variants={{
                     hidden: {
                       opacity: 0,
-                      y: -100,
+                      transform: "translate3d(0, -100px, 0)",
                     },
                     visible: {
                       opacity: 1,
-                      y: 0,
+                      transform: "translate3d(0, 0px, 0)",
                       transition: {
                         duration: 1,
                         type: "spring",
@@ -249,11 +257,11 @@ export const OnboardingPage = () => {
                   variants={{
                     hidden: {
                       opacity: 0,
-                      y: -100,
+                      transform: "translate3d(0, -100px, 0)",
                     },
                     visible: {
                       opacity: 1,
-                      y: 0,
+                      transform: "translate3d(0, 0px, 0)",
                       transition: {
                         duration: 1,
                         type: "spring",
@@ -282,7 +290,7 @@ export const OnboardingPage = () => {
                       },
                     },
                   }}
-                  type="number"
+                  type="tel"
                   className={`bg-gray-800/30 text-gray-100/80 px-6 py-3 rounded-2xl w-1/2 text-xl font-medium font-wsans focus:outline-none focus:ring-purple-500 ring-2 transition-all ring-transparent placeholder:text-2xl placeholder:font-medium placeholder:text-gray-100/40 placeholder:align-middle max-w-[45ch]`}
                   placeholder={"000000"}
                   onChange={(e) => {
@@ -305,11 +313,11 @@ export const OnboardingPage = () => {
                   variants={{
                     hidden: {
                       opacity: 0,
-                      y: -100,
+                      transform: "translate3d(0, -100px, 0)",
                     },
                     visible: {
                       opacity: 1,
-                      y: 0,
+                      transform: "translate3d(0, 0px, 0)",
                       transition: {
                         duration: 1,
                         type: "spring",
@@ -361,11 +369,11 @@ export const OnboardingPage = () => {
                   variants={{
                     hidden: {
                       opacity: 0,
-                      y: -100,
+                      transform: "translate3d(0, -100px, 0)",
                     },
                     visible: {
                       opacity: 1,
-                      y: 0,
+                      transform: "translate3d(0, 0px, 0)",
                       transition: {
                         duration: 1,
                         type: "spring",
@@ -521,8 +529,18 @@ export const OnboardingPage = () => {
                         setExists(true);
                         setexistingUserID(userID);
                         setStage(3);
+                        setTimeout(() => {
+                          globalThis.document
+                            ?.getElementById("codeInput")
+                            ?.focus();
+                        }, 250);
                       } else {
                         setStage(2);
+                        setTimeout(() => {
+                          globalThis.document
+                            ?.getElementById("nameInput")
+                            ?.focus();
+                        }, 250);
                       }
                       setloading(false);
                     } else {
@@ -588,7 +606,7 @@ export const OnboardingPage = () => {
                     if (res.ok) {
                       const { token } = await res.json();
                       localStorage.setItem("token", token);
-                      globalThis.location?.reload();
+                      router.push("/");
                     } else {
                       seterrorMsg(
                         `Something went wrong. ${(await res.json()).error}`
@@ -632,17 +650,6 @@ export const OnboardingPage = () => {
           </div>
         </div>
       </main>
-      <div className={`fixed top-0 left-0 w-full h-full opacity-50`}>
-        {/* <div className={`bg-gradient-to-b from-gray-900/0 via-gray-900/50 to-gray-900 absolute top-0 left-0`} /> */}
-        <Image
-          src="/landingbg.jpg"
-          layout="fill"
-          objectFit="cover"
-          alt={""}
-          className={`blur-md opacity-50`}
-        />
-        <StarBG aniStage={2} />
-      </div>
     </>
   );
 };
