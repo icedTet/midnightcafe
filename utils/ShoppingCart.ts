@@ -1,4 +1,5 @@
-import { GenericProduct, PreferenceModifiers } from "../pages/menu";
+import { GenericProduct, PreferenceModifiers } from "./Items";
+
 
 export type ShoppingCartItem = {
   product: GenericProduct;

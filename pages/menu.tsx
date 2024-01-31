@@ -6,6 +6,20 @@ import { Modal } from "../components/Modal";
 import { ShoppingCartItem } from "../utils/ShoppingCart";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import Head from "next/head";
+import {
+  BobaProduct,
+  CupsizeModiferNames,
+  FoodProduct,
+  GenericProduct,
+  PreferenceModifiers,
+  ToppingModiferNames,
+  calculateItemPrice,
+  cupsizePrices,
+  products,
+  toppingPrices,
+} from "../utils/Items";
+import { fetcher } from "../utils/fetcher";
+import { useRouter } from "next/router";
 
 export const MenuPage = (props: {
   products: (BobaProduct | FoodProduct)[];
@@ -14,7 +28,8 @@ export const MenuPage = (props: {
   const [selectedItem, setSelectedItem] = useState("");
   const [shoppingCart, setShoppingCart] = useState([] as ShoppingCartItem[]);
   const [shoppingCartOpened, setShoppingCartOpened] = useState(false);
-
+  const [creatingSession, setCreatingSession] = useState(false);
+  const router = useRouter();
   useEffect(() => {
     if (!shoppingCart.length) {
       const cart = localStorage.getItem("shoppingCart");
@@ -341,10 +356,31 @@ export const MenuPage = (props: {
         </div>
         {/* <div className={`flex flex-col gap-6`}></div> */}
         <button
-          className={`bg-black shrink-0 text-white w-full px-4 h-10 rounded-2xl group hover:bg-white hover:text-black transition-all duration-150 relative`}
-          onClick={() => {
+          className={`bg-black shrink-0 text-white w-full px-4 h-10 rounded-2xl group hover:bg-white hover:text-black transition-all duration-150 relative disabled:opacity-50 disabled:cursor-not-allowed`}
+          onClick={async () => {
             setSelectedItem?.("");
+            setCreatingSession(true);
+            await fetcher("/api/stripe/createCheckoutSession", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                basket: shoppingCart.map((item) => ({
+                  product: item.product,
+                  preferences: item.preferences,
+                  quantity: item.quantity,
+                })),
+              }),
+            }).then(async (resp) => {
+              if (resp.ok) {
+                const res = await resp.json();
+                router.push(res.sessionURL);
+              }
+              setCreatingSession(false);
+            });
           }}
+          disabled={creatingSession}
         >
           <div className="flex flex-row gap-2 items-center justify-center relative z-10 text-sm ">
             {/* <Star className={`text-lg w-6 h-6`} /> */}
@@ -392,126 +428,3 @@ export const getStaticProps = async () => {
     },
   };
 };
-
-const AssamMilkTea = {
-  id: "assammilk",
-  type: "boba",
-  name: "House Milk Tea",
-  price: 4.25,
-  description:
-    "Creamy milk tea brewed with premium Barooti Assam tea leaves made with homemade brown sugar syrup.",
-  image: "/assets/drinks/assammilk.jpg",
-  modifiers: ["toppings", "sugar", "ice", "cupsize"],
-  stripePriceId: "price_1Oe7W5AU6aQxCCBUlRqZQggu",
-} as BobaProduct;
-// const ThaiMilkTea = {
-//   type: "boba",
-//   name: "Thai Milk Tea",
-//   price: 4.25,
-//   description:
-//     "Indulge in the irresistible blend of rich, creamy milk tea brewed to perfection using imported Thai tea leaves",
-//   image: "/thai-milk-tea.jpg",
-//   modifiers: ["toppings", "sugar", "ice", "cupsize"],
-//   stripePriceId: "price_1Od9bjAU6aQxCCBUm8xKFssN",
-// } as BobaProduct;
-const PassionfruitGreenTea = {
-  id: "passionfruitgreentea",
-  type: "boba",
-  name: "Passion Fruit Green Tea",
-  price: 4.25,
-  description:
-    "A refreshing blend of green tea and real passionfruit, topped with passionfruit seeds.",
-  image: "/assets/drinks/passionfruitgreentea.jpg",
-  modifiers: ["toppings", "sugar", "ice", "cupsize"],
-  stripePriceId: "price_1Oe7VVAU6aQxCCBU4OWNkgEW",
-} as BobaProduct;
-
-const SesameBalls = {
-  id: "sesameballs",
-  type: "food",
-  name: "Sesame Balls (6pcs)",
-  price: 3,
-  description:
-    "A classic Chinese dessert, these chewy sesame balls are filled with sweet red bean paste. Comes in a set of 6 balls.",
-  image: "/assets/food/sesameballs.jpg",
-  modifiers: [],
-  stripePriceId: "price_1Oe7aCAU6aQxCCBU0r2KI3mv",
-} as FoodProduct;
-
-const products = [
-  AssamMilkTea,
-  // ThaiMilkTea,
-  PassionfruitGreenTea,
-  SesameBalls,
-];
-export type ModifierType = "toppings" | "sugar" | "ice" | "cupsize";
-export interface GenericProduct {
-  id: string;
-  type: "boba" | "drink" | "food";
-  name: string;
-  price: number;
-  description: string;
-  image: string;
-  modifiers: ModifierType[];
-  stripePriceId: string;
-}
-interface BobaProduct extends GenericProduct {
-  type: "boba";
-  modifiers: ["toppings", "sugar", "ice", "cupsize"];
-}
-interface FoodProduct extends GenericProduct {
-  type: "food";
-  // modifiers: ["spice", "sauce"];
-}
-export const calculateItemPrice = (
-  product: GenericProduct,
-  preferences: PreferenceModifiers
-) => {
-  return (
-    product.price +
-    (preferences.toppings?.reduce(
-      (acc, curr) => acc + toppingPrices[curr],
-      0
-    ) || 0)
-  );
-};
-export type PreferenceModifiers = {
-  sugar?: SugarModifiers;
-  ice?: IceModifiers;
-  cupsize?: CupsizeModifiers;
-  toppings?: ToppingModifiers[];
-};
-export type SugarModifiersNames =
-  | "200%"
-  | "175%"
-  | "150%"
-  | "125%"
-  | "100% (US 100%)"
-  | "75%"
-  | "50% (Asian 100%)"
-  | "25%"
-  | "0%";
-export type SugarModifiers = 200 | 175 | 150 | 125 | 100 | 75 | 50 | 25 | 0;
-export type IceModifiersName = "100%" | "75%" | "50%" | "25%" | "0% (No Ice)";
-export type IceModifiers = 100 | 75 | 50 | 25 | 0;
-export type CupsizeModifiersName = "Regular" | "Large";
-export type CupsizeModifiers = "reg" | "large";
-export type ToppingModifiers = "boba" | "lycheejelly";
-export const ToppingModiferNames = {
-  boba: "Boba",
-  lycheejelly: "Lychee Jelly",
-} as Record<ToppingModifiers, string>;
-export const CupsizeModiferNames = {
-  reg: "Regular Cup (16oz / 473ml)",
-  large: "Large (23oz / 680ml)",
-} as Record<CupsizeModifiers, string>;
-
-export const ToppingTypes = ["boba", "lycheejelly"] as ToppingModifiers[];
-export const toppingPrices = {
-  boba: 0.5,
-  lycheejelly: 0.5,
-} as Record<ToppingModifiers, number>;
-export const cupsizePrices = {
-  reg: 0,
-  large: 1,
-} as Record<CupsizeModifiers, number>;

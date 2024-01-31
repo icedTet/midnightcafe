@@ -1,16 +1,10 @@
 import { BiFoodMenu } from "react-icons/bi";
-import {
-  GenericProduct,
-  ToppingModiferNames,
-  ToppingTypes,
-  PreferenceModifiers,
-  toppingPrices,
-  calculateItemPrice,
-} from "../../pages/menu";
+
 import { HiOutlinePaintBrush } from "react-icons/hi2";
 import { Modal } from "../Modal";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { GenericProduct, PreferenceModifiers, ToppingTypes, ToppingModiferNames, toppingPrices, calculateItemPrice } from "../../utils/Items";
 const IceLevels = [
   {
     name: "100%",
