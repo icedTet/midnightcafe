@@ -135,7 +135,7 @@ export const MenuItem = ({
             </span>
           </div>
         </div>
-        <div className={`flex flex-col gap-6`}>
+        <div className={`flex flex-col gap-6 grow`}>
           {product.modifiers.includes("ice") && (
             <div className={`flex flex-col w-full gap-1`}>
               <div
@@ -326,9 +326,9 @@ export const MenuItem = ({
             const clonedPrefs = {
               ...prefs,
             };
-            if (!clonedPrefs.ice && product.modifiers.includes("ice")) clonedPrefs.ice = 100;
-            if (!clonedPrefs.sugar && product.modifiers.includes("sugar")) clonedPrefs.sugar = 100;
-            if (!clonedPrefs.cupsize && product.modifiers.includes("cupsize")) clonedPrefs.cupsize = "reg";
+            if (typeof clonedPrefs.ice === 'undefined' && product.modifiers.includes("ice")) clonedPrefs.ice = 100;
+            if (typeof clonedPrefs.sugar === 'undefined' && product.modifiers.includes("sugar")) clonedPrefs.sugar = 100;
+            if (typeof clonedPrefs.cupsize === 'undefined' && product.modifiers.includes("cupsize")) clonedPrefs.cupsize = "reg";
             orderItem(product, clonedPrefs);
             setPrefs({});
             setSelectedItem?.("");

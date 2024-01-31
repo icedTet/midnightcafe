@@ -9,12 +9,22 @@ import { useContext } from "react";
 import { UserContext } from "../utils/useUser";
 import { UserProfile } from "../components/UserProfile";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export default function Home() {
   const user = useContext(UserContext);
   const router = useRouter();
   return (
     <>
+      <Head>
+        <title>Midnight Cafe</title>
+        <meta
+          name="description"
+          content="The Midnight Cafe - Open late, past 8pm."
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <main
         className={`flex flex-col items-center justify-center p-4 relative z-10 gap-6 grow `}
       >
@@ -130,9 +140,19 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={`flex flex-col`}>
-          <div className={`flex flex-row gap-2 items-center justify-center`}>
-            {/* <span className={`text-white text-xs font-light`}>Made by Tet</span> */}
+        <div className={`flex flex-col w-full max-w-prose mx-auto`}>
+          <div
+            className={`flex flex-row gap-2 items-center justify-between w-full`}
+          >
+            <span className={`text-gray-100/40 text-xs font-light`}>
+              © 2024 Midnight Cafe
+            </span>
+            <Link
+              href={"/legal"}
+              className={`text-gray-100/40 text-xs font-light hover:text-gray-100 transition-all duration-200`}
+            >
+              Legal
+            </Link>
           </div>
         </div>
       </main>

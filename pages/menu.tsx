@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Modal } from "../components/Modal";
 import { ShoppingCartItem } from "../utils/ShoppingCart";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
+import Head from "next/head";
 
 export const MenuPage = (props: {
   products: (BobaProduct | FoodProduct)[];
@@ -75,6 +76,14 @@ export const MenuPage = (props: {
 
   return (
     <>
+      <Head>
+        <title>Midnight Cafe - Menu</title>
+        <meta
+          name="description"
+          content="The Midnight Cafe - Open late, past 8pm."
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <motion.div
         initial="hidden"
         animate="visible"
@@ -292,8 +301,16 @@ export const MenuPage = (props: {
                     </div>
                   </div>
                   <div
-                    className={`flex flex-col md:flex-row md:justify-between md:items-center gap-1 items-end`}
+                    className={`flex flex-col md:flex-row md:justify-between md:items-center gap-4 items-end`}
                   >
+                    <span
+                      className={`font-wsans font-medium text-base text-gray-100/40`}
+                    >
+                      $
+                      {(
+                        calculateItemPrice(product, preferences) * quantity
+                      ).toFixed(2)}
+                    </span>
                     <div className={`flex flex-row gap-2 items-center`}>
                       <button
                         className={`w-8 h-8 bg-gray-100/10 rounded-full flex items-center justify-center`}
@@ -316,14 +333,6 @@ export const MenuPage = (props: {
                         <span className={`text-gray-100/60`}>+</span>
                       </button>
                     </div>
-                    <span
-                      className={`font-wsans font-medium text-base text-gray-100/40`}
-                    >
-                      $
-                      {(
-                        calculateItemPrice(product, preferences) * quantity
-                      ).toFixed(2)}
-                    </span>
                   </div>
                 </div>
               );
@@ -341,13 +350,15 @@ export const MenuPage = (props: {
             {/* <Star className={`text-lg w-6 h-6`} /> */}
             <span className={`font-bold`}>
               Place Order ($
-              {shoppingCart.reduce(
-                (acc, curr) =>
-                  acc +
-                  calculateItemPrice(curr.product, curr.preferences) *
-                    curr.quantity,
-                0
-              ).toFixed(2)}
+              {shoppingCart
+                .reduce(
+                  (acc, curr) =>
+                    acc +
+                    calculateItemPrice(curr.product, curr.preferences) *
+                      curr.quantity,
+                  0
+                )
+                .toFixed(2)}
               )
             </span>
           </div>
