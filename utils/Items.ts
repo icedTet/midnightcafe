@@ -36,7 +36,7 @@ const AssamMilkTea = {
     id: "sesameballs",
     type: "food",
     name: "Sesame Balls (6pcs)",
-    price: 3,
+    price: 4,
     description:
       "A classic Chinese dessert, these chewy sesame balls are filled with sweet red bean paste. Comes in a set of 6 balls.",
     image: "/assets/food/sesameballs.jpg",

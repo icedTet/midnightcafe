@@ -44,13 +44,24 @@ export default async function handler(
   res: NextApiResponse<Data | Error>
 ) {
   if (req.method === "POST") {
-    const { basket, phoneNumber } = req.body as {
+    const {
+      basket,
+      phoneNumber,
+      name,
+      deliveryAddress,
+      signupForAccount,
+      delivery,
+    } = req.body as {
       basket: {
         product: GenericProduct;
         preferences: PreferenceModifiers;
         quantity: number;
       }[];
       phoneNumber: string;
+      name: string;
+      delivery: boolean;
+      deliveryAddress: string;
+      signupForAccount: boolean;
     };
     // const { firstName, lastName, phoneNumber, marketingAllowed } = req.query;
     const lineItems: {
@@ -141,12 +152,33 @@ export default async function handler(
       });
     });
     console.log(lineItems);
+    if (delivery) {
+      lineItems.push({
+        price_data: {
+          currency: CURRENCY,
+          product_data: {
+            name: "Delivery Fee",
+            images: [
+              "https://midnightcafe-git-main-icedtet.vercel.app/logo.png",
+            ],
+            description: "Delivery Fee",
+          },
+          unit_amount: 100,
+        },
+        quantity: 1,
+      });
+    }
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
       mode: "payment",
-      success_url: `${req.headers.origin}/?success=true`,
-      cancel_url: `${req.headers.origin}/?canceled=true`,
+      success_url: `${
+        req.headers.origin
+      }/thankyou?session_id={CHECKOUT_SESSION_ID}&delivery=${delivery}&deliveryAddress=${deliveryAddress}&bag=${JSON.stringify(
+        basket
+      )}`,
+      cancel_url: `${req.headers.origin}/menu`,
       automatic_tax: { enabled: false },
+      customer_email: "reciepts@midnightcafeaz.com",
     });
     const mongo = await Mongo;
     await mongo
@@ -161,6 +193,12 @@ export default async function handler(
           preferences: item.preferences,
           quantity: item.quantity,
         })),
+        total: session.amount_total,
+        subtotal: session.amount_subtotal,
+        name,
+        delivery,
+        deliveryAddress,
+        signupForAccount,
       });
     if (!session?.url) {
       return res.status(400).json({ error: "Failed to create session" });

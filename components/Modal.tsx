@@ -9,6 +9,7 @@ export const Modal = (props: {
   hideBG?: boolean;
   className?: string;
   noAnimation?: boolean;
+  zIndex?: number;
 }) => {
   const { children, onClose, visible, hideBG, className, noAnimation } = props;
   const [document, setDocument] = useState(null as Document | null);
@@ -25,7 +26,7 @@ export const Modal = (props: {
         }`}
         onClick={onClose}
         style={{
-          zIndex: 20000,
+          zIndex: props.zIndex ?? 10000,
         }}
       />
       {noAnimation ? (
