@@ -277,12 +277,12 @@ export const MenuPage = (props: {
                     <div
                       className={`flex flex-col gap-0 text-gray-100/60 font-wsans font-medium text-sm`}
                     >
-                      {preferences.ice && (
+                      {typeof preferences.ice !== 'undefined' && (
                         <div className={`flex flex-row gap-2 items-center `}>
                           - {preferences.ice}% Ice
                         </div>
                       )}
-                      {preferences.sugar && (
+                      {typeof preferences.sugar !== 'undefined' && (
                         <div className={`flex flex-row gap-2 items-center `}>
                           - {preferences.sugar}% Sweet
                         </div>
@@ -294,7 +294,7 @@ export const MenuPage = (props: {
                             `($${cupsizePrices[preferences.cupsize]})`}
                         </div>
                       )}
-                      {preferences.toppings && (
+                      {!!preferences.toppings?.length && (
                         <div className={`flex flex-row gap-2 items-center `}>
                           -{" "}
                           {preferences.toppings

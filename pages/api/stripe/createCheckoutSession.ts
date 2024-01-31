@@ -19,7 +19,7 @@ import { Encryptions } from "../../../utils/Encryptions";
 import { User } from "../../../utils/types";
 import Stripe from "stripe";
 import {
-    CupsizeModiferNames,
+  CupsizeModiferNames,
   GenericProduct,
   PreferenceModifiers,
   ToppingModiferNames,
@@ -90,7 +90,9 @@ export default async function handler(
         item.product.modifiers.includes("cupsize") &&
         item.preferences.cupsize !== undefined
       ) {
-        lineItemDescription += `| ${CupsizeModiferNames[item.preferences.cupsize]} |`;
+        lineItemDescription += `| ${
+          CupsizeModiferNames[item.preferences.cupsize]
+        } |`;
         price += cupsizePrices[item.preferences.cupsize!] * 100;
       }
       if (
@@ -126,7 +128,7 @@ export default async function handler(
           product_data: {
             name: officialProduct.name,
             images: [
-              `${req.headers.origin || req.headers.referer}${
+              `${`https://midnightcafe-git-main-icedtet.vercel.app/`}${
                 officialProduct.image
               }`,
             ],
@@ -144,7 +146,7 @@ export default async function handler(
       mode: "payment",
       success_url: `${req.headers.origin}/?success=true`,
       cancel_url: `${req.headers.origin}/?canceled=true`,
-      automatic_tax: { enabled: true },
+      automatic_tax: { enabled: false },
     });
     const mongo = await Mongo;
     await mongo
