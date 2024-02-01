@@ -232,7 +232,7 @@ export const MenuPage = (props: {
               }}
               className={`flex flex-row gap-2 w-full items-center justify-center pt-8 font-bold`}
             >
-              We're closed right now, but we will automatically start making
+              We&apos;re closed right now, but we will automatically start making
               your order at 8pm!
             </motion.span>
           )}
