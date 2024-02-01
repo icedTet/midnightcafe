@@ -71,7 +71,14 @@ export default function Home() {
               <div className="flex flex-row gap-2 items-center justify-center ">
                 <BiFoodMenu className={`text-lg w-6 h-6`} />
                 <span className={` font-bold`}>Order Now</span>
-                <span className={`font-light text-xs`}>(Open until 2am)</span>
+                <span className={`font-light text-xs`}>
+                  {
+                    // check if before 2am and after 8pm
+                    new Date().getHours() >= 20 || new Date().getHours() < 2
+                      ? "(Open until 2am)"
+                      : "(Closed until 8pm)"
+                  }
+                </span>
               </div>
             </Link>
             <div

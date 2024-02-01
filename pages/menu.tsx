@@ -216,6 +216,26 @@ export const MenuPage = (props: {
           >
             Stuff you can stuff in your mouth i suppose.
           </motion.span>
+          {!(new Date().getHours() >= 20 || new Date().getHours() < 2) && (
+            <motion.span
+              variants={{
+                hidden: { opacity: 0, transform: "translate3d(0, 100vh, 0)" },
+                visible: {
+                  opacity: 1,
+                  transform: "translate3d(0, 0vh, 0)",
+                  transition: {
+                    duration: 1,
+                    type: "spring",
+                    bounce: 0.4,
+                  },
+                },
+              }}
+              className={`flex flex-row gap-2 w-full items-center justify-center pt-8 font-bold`}
+            >
+              We're closed right now, but we will automatically start making
+              your order at 8pm!
+            </motion.span>
+          )}
         </motion.div>
         <motion.div
           className={` w-full grid grid-cols-3 lg:grid-cols-2 md:grid-cols-1 md: gap-8`}
