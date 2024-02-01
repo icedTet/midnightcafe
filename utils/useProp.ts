@@ -16,8 +16,7 @@ class APIManager {
     if (!APIManager.instance) APIManager.instance = new APIManager();
     return APIManager.instance;
   }
-  constructor() {
-  }
+  constructor() {}
   cachedFetch(url: string, requestInit?: RequestInit, cacheLife = 300) {
     // if it is cached, return it
     const cached = APIMap.get(url);
@@ -41,6 +40,7 @@ class APIManager {
           value: Promise.resolve(value?.clone() || null),
           lastUpdate: Date.now(),
         });
+        APIManager.fetchingMap.delete(url);
         return value;
       })
     );
@@ -54,13 +54,12 @@ class APIManager {
  */
 export const useAPIProp = <T>(options: {
   APIPath?: string;
-  guildID?: string;
   requestInit?: RequestInit;
   cacheable?: boolean;
   defaultValue?: T;
   cacheLife?: number;
 }) => {
-  const { APIPath, guildID, requestInit, cacheable, defaultValue } = options;
+  const { APIPath, requestInit, cacheable, defaultValue } = options;
   const user = useContext(UserContext);
   const cacheLife = options.cacheLife || 1000 * 60 * 60 * 24;
   const [value, setValue] = useState(
@@ -70,7 +69,11 @@ export const useAPIProp = <T>(options: {
   const update = useCallback(async () => {
     if (!APIPath) return null;
     const resp = await APIManager.getInstance()
-      .cachedFetch(`${APIPath}`, requestInit)
+      .cachedFetch(
+        `${APIPath}`,
+        requestInit,
+        cacheable ? cacheLife || 1000 * 60 : 0
+      )
       ?.catch((e) => {
         console.error(e);
         return null;
@@ -86,7 +89,7 @@ export const useAPIProp = <T>(options: {
 
   useEffect(() => {
     update();
-    console.log("useAPIProp", APIPath, guildID, requestInit, cacheable, user);
+    console.log("useAPIProp", APIPath, requestInit, cacheable, user);
   }, [APIPath, requestInit, user?.user]);
   return [value, update, error] as [
     null | undefined | T,

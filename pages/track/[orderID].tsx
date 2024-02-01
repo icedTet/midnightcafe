@@ -9,6 +9,7 @@ import {
   PreferenceModifiers,
 } from "../../utils/Items";
 import Mongo from "../../utils/clients/Mongo";
+import { OrderData } from "../../utils/types";
 
 export const TrackPage = (props: {
   // {
@@ -43,24 +44,7 @@ export const TrackPage = (props: {
   //     "date": 1706747818270,
   //     "pointsGained": 378.3026048153911
   //   }
-  orderData: {
-    sessionID: string;
-    phoneNumber: string;
-    basket: {
-      product: GenericProduct;
-      preferences: PreferenceModifiers;
-      quantity: number;
-    }[];
-    total: number;
-    subtotal: number;
-    name: string;
-    delivery: boolean;
-    deliveryAddress: string;
-    signupForAccount: boolean;
-    date: number;
-    pointsGained: number;
-    status?: string;
-  };
+  orderData: OrderData;
   sankyou: string;
 }) => {
   const { orderData, sankyou } = props;
@@ -245,14 +229,16 @@ export const TrackPage = (props: {
               className={`text-base font-wsans font-medium text-gray-100/40 w-full text-end`}
             >
               Discounts and Promotional Offers: -$
-              {Math.abs(orderData.total / 100 -
-                orderData.basket.reduce(
-                  (acc, curr) =>
-                    acc +
-                    curr.quantity *
-                      calculateItemPrice(curr.product, curr.preferences),
-                  0
-                )).toFixed(2)}
+              {Math.abs(
+                orderData.total / 100 -
+                  orderData.basket.reduce(
+                    (acc, curr) =>
+                      acc +
+                      curr.quantity *
+                        calculateItemPrice(curr.product, curr.preferences),
+                    0
+                  )
+              ).toFixed(2)}
             </span>
           </>
         )}

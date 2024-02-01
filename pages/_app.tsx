@@ -13,6 +13,7 @@ import { Navbar } from "../components/Navbar";
 import ProgressBar from "../components/ProgressBar";
 import { useWindowSize } from "@uidotdev/usehooks";
 import Head from "next/head";
+import { Analytics } from "@vercel/analytics/react";
 function iOS() {
   return (
     [
@@ -187,6 +188,7 @@ export default function App({ Component, pageProps }: AppProps) {
             </div>
           </AnimatePresence>
         </MotionConfig>
+        <Analytics />
       </UserProvider>
     </>
   );
