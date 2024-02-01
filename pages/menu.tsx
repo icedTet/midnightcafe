@@ -59,7 +59,17 @@ export const MenuPage = (props: {
       setDeliveryAddress(localStorage.getItem("deliveryAddress")!);
     if (localStorage.getItem("deliveryLocation"))
       setDeliveryLocation(localStorage.getItem("deliveryLocation")!);
+    if (localStorage.getItem("orderName"))
+      setOrderName(localStorage.getItem("orderName")!);
+    if (localStorage.getItem("orderPhone"))
+      setOrderPhone(localStorage.getItem("orderPhone")!);
   }, []);
+  useEffect(() => {
+    localStorage.setItem("orderName", `${orderName}`);
+  }, [orderName]);
+  useEffect(() => {
+    localStorage.setItem("orderPhone", `${orderPhone}`);
+  }, [orderPhone]);
   const addItemToCart = (
     product: GenericProduct,
     preferences: PreferenceModifiers,
