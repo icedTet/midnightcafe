@@ -97,11 +97,12 @@ export const Fufilment = () => {
                   </span>
                 </div>
                 <div className={`flex flex-col gap-4`}>
-                  {order.basket.map((item) => {
+                  {order.basket.map((item,ind) => {
                     const { preferences, product } = item;
                     return (
                       <div
                         className={`flex flex-col gap-1 items-start border border-gray-100/10 p-4 rounded-xl`}
+                        key={`order-item-${ind}-${order._id}`}
                       >
                         <div className={`flex flex-row text-xl gap-4`}>
                           <span>{item.quantity}x</span>
