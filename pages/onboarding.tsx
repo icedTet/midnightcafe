@@ -643,7 +643,6 @@ export const OnboardingPage = () => {
                         user.refreshUser();
                       }
                       // console.log({ user });
-                      alert("router update");
                       router.push("/");
                     } else {
                       seterrorMsg(
