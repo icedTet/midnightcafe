@@ -416,7 +416,7 @@ className={`w-2/3 h-auto rounded-full`}
             className={`flex flex-row gap-2 items-center justify-between w-full`}
           >
             <button
-              className={`bg-gray-100/40 text-black w-full px-4 pr-6 h-10 rounded-2xl group hover:text-black transition-all duration-150 relative`}
+              className={`bg-gray-100 text-black w-full px-4 pr-6 h-10 rounded-2xl group hover:text-black transition-all duration-150 relative`}
               onClick={onClick}
             >
               <div

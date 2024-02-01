@@ -77,8 +77,16 @@ export const Fufilment = () => {
         {orders?.map((order) => {
           return (
             <>
-              <div className="flex flex-col gap-2 p-4 bg-gray-900 rounded-xl" key={`order-${order._id}`}>
+              <div
+                className={`flex flex-col gap-2 p-4 bg-gray-900 rounded-xl ${
+                  order.status === "delivered" ? "bg-green-500/10 opacity-50 backdrop-blur-xl" : ""
+                }`}
+                key={`order-${order._id}`}
+              >
                 <div className={`flex flex-col gap-0`}>
+                  <span className="text-gray-100/40">
+                    {order.status || "No Order Status Available"}
+                  </span>
                   <span className="text-gray-100/60 font-bold text-xl">
                     {order.name}
                   </span>
@@ -97,7 +105,7 @@ export const Fufilment = () => {
                   </span>
                 </div>
                 <div className={`flex flex-col gap-4`}>
-                  {order.basket.map((item,ind) => {
+                  {order.basket.map((item, ind) => {
                     const { preferences, product } = item;
                     return (
                       <div
@@ -160,9 +168,7 @@ export const Fufilment = () => {
                     );
                   })}
                 </div>
-                <span className="text-gray-100/40">
-                  {order.status || "No Order Status Available"}
-                </span>
+
                 <button
                   className="bg-indigo-500 p-2 rounded-xl"
                   onClick={() => setViewStatusUpdate(order._id.toString())}
