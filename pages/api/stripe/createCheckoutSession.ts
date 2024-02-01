@@ -28,6 +28,7 @@ import {
   toppingPrices,
 } from "../../../utils/Items";
 import { LineItem } from "@stripe/stripe-js";
+import { processPromos } from "../../../utils/promos";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET!);
 const CURRENCY = "usd";
@@ -70,7 +71,6 @@ export default async function handler(
         product_data: {
           name: string;
           images: string[];
-
           description: string;
         };
         unit_amount: number;
@@ -144,10 +144,11 @@ export default async function handler(
               }`,
             ],
 
-            description: lineItemDescription,
+            description: lineItemDescription + `§${officialProduct.id}`,
           },
           unit_amount: price,
         },
+
         quantity: item.quantity,
       });
     });
@@ -168,17 +169,24 @@ export default async function handler(
         quantity: 1,
       });
     }
+    const promos = await processPromos({
+      basket,
+      delivery,
+      deliveryAddress,
+      lineItems,
+      name,
+      phoneNumber,
+      signupForAccount,
+      userid: userID || undefined,
+    });
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
       mode: "payment",
-      success_url: `${
-        req.headers.origin
-      }/thankyou?session_id={CHECKOUT_SESSION_ID}&delivery=${delivery}&deliveryAddress=${deliveryAddress}&bag=${JSON.stringify(
-        basket
-      )}`,
+      success_url: `${req.headers.origin}/track/{CHECKOUT_SESSION_ID}?thanks=true`,
       cancel_url: `${req.headers.origin}/menu`,
       automatic_tax: { enabled: false },
       customer_email: "reciepts@midnightcafeaz.com",
+      discounts: [],
     });
     const mongo = await Mongo;
     await mongo
@@ -199,6 +207,7 @@ export default async function handler(
         delivery,
         deliveryAddress,
         signupForAccount,
+        promos,
       });
     if (!session?.url) {
       return res.status(400).json({ error: "Failed to create session" });

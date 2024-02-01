@@ -1,5 +1,5 @@
 
-const AssamMilkTea = {
+export const AssamMilkTea = {
     id: "assammilk",
     type: "boba",
     name: "House Milk Tea",
@@ -20,7 +20,7 @@ const AssamMilkTea = {
   //   modifiers: ["toppings", "sugar", "ice", "cupsize"],
   //   stripePriceId: "price_1Od9bjAU6aQxCCBUm8xKFssN",
   // } as BobaProduct;
-  const PassionfruitGreenTea = {
+  export const PassionfruitGreenTea = {
     id: "passionfruitgreentea",
     type: "boba",
     name: "Passion Fruit Green Tea",
@@ -32,7 +32,7 @@ const AssamMilkTea = {
     stripePriceId: "price_1Oe7VVAU6aQxCCBU4OWNkgEW",
   } as BobaProduct;
   
-  const SesameBalls = {
+  export const SesameBalls = {
     id: "sesameballs",
     type: "food",
     name: "Sesame Balls (6pcs)",

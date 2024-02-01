@@ -116,7 +116,9 @@ export default async function handler(
             }
           }
           generateFields.push({
-            name: `${product?.name || `${item.product.id} (Product not found)`} (x${item.quantity})`,
+            name: `${
+              product?.name || `${item.product.id} (Product not found)`
+            } (x${item.quantity})`,
             value: desc,
           });
         }
@@ -128,7 +130,8 @@ export default async function handler(
 ${order.delivery ? `Deliver to ${order.deliveryAddress}` : `Pickup Order`}
 ${order.name} ${order.phoneNumber}
 Order Total: \`$${order.total / 100}\`
-Order ID: \`${sessionID}\`
+Order ID: \`${sessionID}\`,
+Promo Codes Used: \`${order.promos.join(", ")}\`
 `,
               color: null,
               fields: generateFields,
@@ -165,6 +168,25 @@ Order ID: \`${sessionID}\`
             },
           });
         console.log(order);
+        const accountSid = process.env.TWILIO_SID;
+        const authToken = process.env.TWILIO_AUTH_TOKEN;
+        const twi = new Twilio(accountSid, authToken);
+        await twi.messages
+          .create({
+            body: `「Midnight Cafe」Hey ${
+              order.name
+            }, We got your order! Your order is now being prepared! ${
+              order.delivery
+                ? `Your order will be delivered to ${order.deliveryAddress}`
+                : `Your order will be ready for pickup at Tooker House floor 4 center lounge`
+            }! Track your order at https://midnightcafeaz.com/track/${sessionID}!`,
+            from: process.env.TWILIO_PHONE_NUMBER,
+            to: order.phoneNumber,
+          })
+          .catch((e) => {
+            console.error(e);
+            return res.status(500).json({ error: "Internal Server Error" });
+          });
         res
           .status(200)
           .json({ sessionID: session.id, sessionURL: session.url });
