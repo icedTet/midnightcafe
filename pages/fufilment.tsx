@@ -77,7 +77,7 @@ export const Fufilment = () => {
         {orders?.map((order) => {
           return (
             <>
-              <div className="flex flex-col gap-2 p-4 bg-gray-900 rounded-xl">
+              <div className="flex flex-col gap-2 p-4 bg-gray-900 rounded-xl" key={`order-${order._id}`}>
                 <div className={`flex flex-col gap-0`}>
                   <span className="text-gray-100/60 font-bold text-xl">
                     {order.name}
@@ -172,6 +172,7 @@ export const Fufilment = () => {
               <Modal
                 visible={viewStatusUpdate === order._id.toString()}
                 onClose={() => setViewStatusUpdate("")}
+                key={`modal-order-${order._id}`}
               >
                 <div className="flex flex-col gap-4 p-4 bg-gray-800 rounded-xl">
                   <h1 className="text-2xl font-bold font-montserrat">
