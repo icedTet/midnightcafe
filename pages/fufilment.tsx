@@ -189,6 +189,7 @@ export const Fufilment = () => {
                               status === "delivered") &&
                               !order.delivery)
                           }
+                          key={`order-status-${status}-${order._id}`}
                           onClick={() => {
                             // update order status
                             updateOrder(order._id.toString(), status).then(
