@@ -77,7 +77,7 @@ export default async function handler(
     const accountSid = process.env.TWILIO_SID;
     const authToken = process.env.TWILIO_AUTH_TOKEN;
     const twi = new Twilio(accountSid, authToken);
-    false &&
+    true &&
       (await twi.messages
         .create({
           body: `「Midnight Cafe」Hey ${order.name}, Your order is now ${status}!`,
