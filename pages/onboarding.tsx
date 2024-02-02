@@ -544,7 +544,9 @@ export const OnboardingPage = () => {
                             phoneNumber: `+${countryCode}${phone}`,
                           }),
                         }),
-                        new Promise((res) => setTimeout(() => res(null), 20000)),
+                        new Promise((res) =>
+                          setTimeout(() => res(null), 20000)
+                        ),
                       ])) as Response | null;
                       if (!res) {
                         seterrorMsg(
@@ -595,7 +597,7 @@ export const OnboardingPage = () => {
                       },
                       body: JSON.stringify({
                         phoneNumber: `+${countryCode}${phone}`,
-                        lastName: name.split(" ").pop(),
+                        lastName: name.split(" ").pop() || " ",
                         firstName: name.split(" ").slice(0, -1).join(" "),
                         allowedMarketing,
                       }),
