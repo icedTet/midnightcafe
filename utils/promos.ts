@@ -29,7 +29,9 @@ export const processPromos = async (order: OrderDetails) => {
   const promos = [
     await processOpeningSale(order),
     await processFatPandaDiscount(order),
-  ].flat(3).filter((x) => x);
+  ]
+    .flat(3)
+    .filter((x) => x);
 
   removeProductIds(order);
   return promos;
@@ -67,7 +69,7 @@ export const processOpeningSale = async (order: OrderDetails) => {
   return ["Opening Sale"];
 };
 export const processFatPandaDiscount = async (order: OrderDetails) => {
-  if (order.phoneNumber === "+14805492239")
+  if (order.phoneNumber === "+14805492239") {
     order.lineItems.map((x) => {
       const id = x.price_data.product_data.description.match(/§(.+)/)?.[1];
       if (id === SesameBalls.id) {
@@ -75,5 +77,7 @@ export const processFatPandaDiscount = async (order: OrderDetails) => {
         x.price_data.product_data.name = `${x.price_data.product_data.name}  (🎉 26.7% OFF — Fat Panda Discount)`;
       }
     });
-  return "Fat Panda Pranav Discount";
+    return "Fat Panda Pranav Discount";
+  }
+  return null;
 };
