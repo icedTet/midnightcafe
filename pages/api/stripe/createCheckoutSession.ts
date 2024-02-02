@@ -45,7 +45,7 @@ export default async function handler(
   res: NextApiResponse<Data | Error>
 ) {
   if (req.method === "POST") {
-    const {
+    let {
       basket,
       phoneNumber,
       name,
@@ -86,7 +86,13 @@ export default async function handler(
       token &&
       token.includes("Bearer") &&
       (await Encryptions.decryptUserToken(token.replace("Bearer ", "")));
-
+    const user = await Mongo.then(async (mongo) =>
+      userID && mongo.db("Users").collection("user").findOne({ _id: new ObjectId(userID) })
+    ) as User | undefined;
+    if (user) {
+      phoneNumber = user.phoneNumber;
+      name = `${user.firstName} ${user.lastName}`.trim();
+    }
     basket.map((item) => {
       const product = item.product;
       const officialProduct = products.find((p) => p.id === product.id);
