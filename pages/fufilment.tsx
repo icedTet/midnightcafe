@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { OrderData } from "../utils/types";
 import { useAPIProp } from "../utils/useProp";
 import dayjs from "dayjs";
@@ -13,9 +13,9 @@ import { fetcher } from "../utils/fetcher";
 const orderStatusTypes = [
   "being prepared",
   "being delivered",
-
-  "delivered",
   "ready for pickup",
+  "delivered",
+  "\\has been picked up"
 ];
 export const Fufilment = () => {
   const [orders, updateOrders] = useAPIProp<OrderData[]>({
@@ -39,6 +39,11 @@ export const Fufilment = () => {
       setUpdatingOrder("");
     }
   };
+  useEffect(() => {
+    setInterval(async () => {
+      await updateOrders();
+    }, 5000);
+  }, []);
   useMemo(() => {
     // sort first by order status. First should be statuses not in orderStatusTypes
     // then sort by orderStatusTypes then by time descending
@@ -79,7 +84,9 @@ export const Fufilment = () => {
             <>
               <div
                 className={`flex flex-col gap-2 p-4 bg-gray-900 rounded-xl ${
-                  order.status === "delivered" ? "bg-green-500/10 opacity-50 backdrop-blur-xl" : ""
+                  order.status === "delivered" || order.status === "\\has been picked up"
+                    ? "bg-green-500/10 opacity-50 backdrop-blur-xl"
+                    : ""
                 }`}
                 key={`order-${order._id}`}
               >

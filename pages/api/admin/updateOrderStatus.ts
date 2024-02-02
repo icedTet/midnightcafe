@@ -80,7 +80,11 @@ export default async function handler(
     true &&
       (await twi.messages
         .create({
-          body: `「Midnight Cafe」Hey ${order.name}, Your order is now ${status}!`,
+          body: `「Midnight Cafe」Hey ${order.name}, Your order ${
+            (status as string).startsWith("\\")
+              ? status.slice(1)
+              : `is now ${status}`
+          }!`,
 
           from: process.env.TWILIO_PHONE_NUMBER,
           to: order.phoneNumber,

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   CupsizeModiferNames,
   cupsizePrices,
@@ -10,50 +10,24 @@ import {
 } from "../../utils/Items";
 import Mongo from "../../utils/clients/Mongo";
 import { OrderData } from "../../utils/types";
+import { fetcher } from "../../utils/fetcher";
+import { capitalize } from "../../utils/MiniLib";
 
-export const TrackPage = (props: {
-  // {
-  //     "_id": {
-  //       "$oid": "65bae792ac89400bf85293dc"
-  //     },
-  //     "sessionID": "cs_live_a1PRmtshT8QqPa67mPbSkuxPLCp6sVdrO2xJrSal18h1Eur2AuXljeHOAj",
-  //     "userID": null,
-  //     "phoneNumber": "+13413562661",
-  //     "basket": [
-  //       {
-  //         "product": {
-  //           "id": "sesameballs",
-  //           "type": "food",
-  //           "name": "Sesame Balls (6pcs)",
-  //           "price": 4,
-  //           "description": "A classic Chinese dessert, these chewy sesame balls are filled with sweet red bean paste. Comes in a set of 6 balls.",
-  //           "image": "/assets/food/sesameballs.jpg",
-  //           "modifiers": [],
-  //           "stripePriceId": "price_1Oe7aCAU6aQxCCBU0r2KI3mv"
-  //         },
-  //         "preferences": {},
-  //         "quantity": 1
-  //       }
-  //     ],
-  //     "total": 400,
-  //     "subtotal": 400,
-  //     "name": "Ronit Shah",
-  //     "delivery": false,
-  //     "deliveryAddress": "tooker ",
-  //     "signupForAccount": true,
-  //     "date": 1706747818270,
-  //     "pointsGained": 378.3026048153911
-  //   }
-  orderData: OrderData;
-  sankyou: string;
-}) => {
-  const { orderData, sankyou } = props;
+export const TrackPage = (props: { orderData: OrderData; sankyou: string }) => {
+  const { sankyou } = props;
+  const [orderData, setOrderData] = useState<OrderData>(props.orderData);
   const shoppingCart = useEffect(() => {
     sankyou && localStorage.removeItem("shoppingCart");
+    const int = setInterval(async () => {
+      const upd = await fetcher(`/api/order/65bc16214113b6bdb00630b2`);
+      if (upd.ok) {
+        setOrderData(await upd.json());
+      }
+    }, 5000);
   }, []);
   // thank you for your purchase
   return (
-    <div className="flex flex-col items-start justify-start h-screen gap-8 mx-auto">
+    <div className="flex flex-col items-start justify-start h-screen gap-8 mx-auto ">
       <div className={`flex flex-col items-start justify-start gap-4`}>
         <h1 className="text-4xl font-bold">
           {sankyou ? "Thank you for your purchase!" : "Track your order"}
@@ -72,7 +46,8 @@ export const TrackPage = (props: {
           <span
             className={`text-4xl font-montserrat font-bold text-gray-100 p-2 px-4 rounded-md`}
           >
-            {orderData.status || "Pending, in the system"}
+            {capitalize(orderData.status?.replace(/^\\/, "")) ||
+              "Pending, in the system"}
           </span>
         </div>
         <div className={`flex flex-col gap-2`}>
