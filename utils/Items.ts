@@ -1,10 +1,10 @@
 export const AssamMilkTea = {
   id: "assammilk",
   type: "boba",
-  name: "House Milk Tea",
-  price: 4.25,
+  name: "House Milk Tea w/ boba",
+  price: 4.50,
   description:
-    "Creamy milk tea brewed with premium Barooti Assam tea leaves made with homemade brown sugar syrup.",
+    "Creamy milk tea brewed with premium Barooti Assam tea leaves made with homemade brown sugar syrup. Comes already with boba pearls.",
   image: "/assets/drinks/assammilk.jpg",
   modifiers: ["toppings", "sugar", "ice", "cupsize"],
   stripePriceId: "price_1Oe7W5AU6aQxCCBUlRqZQggu",
@@ -14,7 +14,7 @@ export const LycheeMilkTea = {
   id: "lycheemilk",
   type: "boba",
   name: "Lychee Milk Tea",
-  price: 4.25,
+  price: 4,
   description:
     "A refreshing blend of lychee and creamy milk tea brewed to perfection using imported chinese lychee black tea leaves",
   image: "/assets/drinks/assammilk.jpg",
@@ -35,7 +35,7 @@ export const PassionfruitGreenTea = {
   id: "passionfruitgreentea",
   type: "boba",
   name: "Passion Fruit Green Tea",
-  price: 4.25,
+  price: 4,
   description:
     "A refreshing blend of green tea and real passionfruit, topped with passionfruit seeds.",
   image: "/assets/drinks/passionfruitgreentea.jpg",
