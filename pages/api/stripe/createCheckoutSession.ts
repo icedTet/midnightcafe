@@ -185,7 +185,7 @@ export default async function handler(
       success_url: `${req.headers.origin}/track/{CHECKOUT_SESSION_ID}?thanks=true`,
       cancel_url: `${req.headers.origin}/menu`,
       automatic_tax: { enabled: false },
-      customer_email: "reciepts@midnightcafeaz.com",
+      customer_email: `reciepts${Date.now()}@midnightcafeaz.com`,
       discounts: [],
     });
     const mongo = await Mongo;

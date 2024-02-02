@@ -1,7 +1,7 @@
 export const AssamMilkTea = {
   id: "assammilk",
   type: "boba",
-  name: "House Milk Tea w/ boba",
+  name: "House Milk Tea w/ Boba",
   price: 4.50,
   description:
     "Creamy milk tea brewed with premium Barooti Assam tea leaves made with homemade brown sugar syrup. Comes already with boba pearls.",
