@@ -68,7 +68,10 @@ export const Navbar = (props: { ref?: React.RefObject<HTMLDivElement> }) => {
             <NavbarLink href="/menu" title="Menu" />
             {/* <NavbarLink href="/events" title="Events" /> */}
             {/* <NavbarLink href="/class/directory" title="Directory" /> */}
-            <NavbarLink href="/contact" title="Support" />
+            <NavbarLink
+              href="mailto:support@midnightcafeaz.com"
+              title="Support"
+            />
             {/* {JSON.stringify(user)} */}
 
             {/* <NavbarLink href="/onboarding" title="Login" /> */}
