@@ -43,17 +43,17 @@ export const LegalPage = () => {
         </p>
       </div>
 
-      <div className="flex flex-col gap-4">
-        <h2 className="text-2xl font-bold font-montserrat">Terms of Service</h2>
-        <p>
-          By using our service, you agree to our terms of service. To learn more
-          about our terms of service, please visit our{" "}
-          <Link href="/legal/terms" className="text-indigo-500">
-            terms of service page
-          </Link>
-          .
-        </p>
-      </div>
+      // <div className="flex flex-col gap-4">
+      //   <h2 className="text-2xl font-bold font-montserrat">Terms of Service</h2>
+      //   <p>
+      //     By using our service, you agree to our terms of service. To learn more
+      //     about our terms of service, please visit our{" "}
+      //     <Link href="/legal/terms" className="text-indigo-500">
+      //       terms of service page
+      //     </Link>
+      //     .
+      //   </p>
+      // </div>
     </div>
   );
 };
