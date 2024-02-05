@@ -396,7 +396,7 @@ export const PrivacyPage = () => {
       <p className="p2">
         <span className="s1">
           <i>Location Data. </i>We collect location data such as information
-          about your device's location, which can be either precise or
+          about your device&apos;s location, which can be either precise or
           imprecise. How much information we collect depends on the type and
           settings of the device you use to access the Services. For example, we
           may use GPS and other technologies to collect geolocation data that

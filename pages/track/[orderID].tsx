@@ -19,7 +19,7 @@ export const TrackPage = (props: { orderData: OrderData; sankyou: string }) => {
   const shoppingCart = useEffect(() => {
     sankyou && localStorage.removeItem("shoppingCart");
     const int = setInterval(async () => {
-      const upd = await fetcher(`/api/order/65bc16214113b6bdb00630b2`);
+      const upd = await fetcher(`/api/order/${orderData._id}`);
       if (upd.ok) {
         setOrderData(await upd.json());
       }
