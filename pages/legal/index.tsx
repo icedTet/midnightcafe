@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export const LegalPage = () => {
   return (
     <div className="flex flex-col gap-4 mx-auto prose prose-invert">
@@ -7,9 +9,9 @@ export const LegalPage = () => {
         <p>
           We take your privacy seriously. To learn more about our privacy
           policy, please visit our{" "}
-          <a href="/legal/privacy" className="text-indigo-500">
+          <Link href="/legal/privacy" className="text-indigo-500">
             privacy policy page
-          </a>
+          </Link>
           .
         </p>
       </div>
@@ -46,9 +48,9 @@ export const LegalPage = () => {
         <p>
           By using our service, you agree to our terms of service. To learn more
           about our terms of service, please visit our{" "}
-          <a href="/legal/terms" className="text-indigo-500">
+          <Link href="/legal/terms" className="text-indigo-500">
             terms of service page
-          </a>
+          </Link>
           .
         </p>
       </div>
