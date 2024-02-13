@@ -112,12 +112,12 @@ export default async function handler(
             }
           }
           if (product?.modifiers.includes("sugar")) {
-            if (prefs.sugar) {
+            if (prefs.sugar !== undefined) {
               desc += `- ${prefs.sugar}% Sugar\n`;
             }
           }
           if (product?.modifiers.includes("ice")) {
-            if (prefs.ice) {
+            if (prefs.ice !== undefined) {
               desc += `- ${prefs.ice}% Ice\n`;
             }
           }
