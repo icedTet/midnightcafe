@@ -29,7 +29,7 @@
     "starback": "icedTet/starback.js",
     "stripe": "^14.14.0",
     "tailwind-scrollbar": "^3.0.5",
-    "twilio": "^4.21.0"
+    "twilio": "^5.4.5"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.5",
